@@ -48,30 +48,51 @@ mkdir(buildDir);
 
 // Process markdown articles
 let markdownFiles = fs.readdirSync(articlesDir).filter(filename => /\.md$/.test(filename));
-markdownFiles.forEach(function(markdownFilename) {
+let markdownProcedures = markdownFiles.map(function(markdownFilename) {
     console.log(`Processing: ${markdownFilename}`);
     let contents = fs.readFileSync(path.join(articlesDir, markdownFilename), "utf8"),
         data = markdownTools.processContents(contents),
         author = authors[data.properties.author],
         urlArticleName = markdownFilename.split(".")[0];
+    let dateInfo = markdownTools.processDate(data.properties.date),
+        dirStructure = [dateInfo.year, dateInfo.month, urlArticleName],
+        articleOutputDir = path.join.apply(null, [buildDir, "article"].concat(dirStructure));
     if (!author) {
         throw new Error("Unknown author");
     }
-    let dateInfo = markdownTools.processDate(data.properties.date),
-        dirStructure = [dateInfo.year, dateInfo.month, urlArticleName],
-        articleOutputDir = path.join.apply(null, [buildDir, "article"].concat(dirStructure)),
-        htmlContent = marked(data.contents.trim()),
-        pageContent = templateTools.processArticlePage(htmlContent);
-    mkdir(articleOutputDir);
-    fs.writeFileSync(
-        path.join(articleOutputDir, "index.html"),
-        pageContent
-    );
+    return Promise.resolve().then(function() {
+        let htmlContent = marked(data.contents.trim()),
+            pageContent = templateTools.processArticlePage({
+                content: htmlContent,
+                title: data.properties.title,
+                subtitle: data.properties.subtitle,
+                headerImg: data.properties.headerImg
+            });
+        mkdir(articleOutputDir);
+        fs.writeFileSync(
+            path.join(articleOutputDir, "index.html"),
+            pageContent
+        );
+    })
+    .then(function() {
+        return new Promise(function(resolve, reject) {
+            fs.copy(
+                path.join(articlesDir, urlArticleName, data.properties.headerImg),
+                path.join(articleOutputDir, data.properties.headerImg),
+                function(err) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve();
+                }
+            });
+        });
+    });
 });
 
 // Assets
 Promise
-    .all([
+    .all(markdownProcedures.concat([
         new Promise(function(resolve, reject) {
             fs.copyRecursive(path.join(themeDir, "assets"), path.join(buildDir, "assets"), function(err) {
                 if (err) {
@@ -90,12 +111,17 @@ Promise
                 }
             });
         })
-    ])
+    ]))
     .then(function() {
         console.log("Done.");
+        process.exit(0);
     })
     .catch(function(err) {
         setTimeout(function() {
             throw err;
         });
     });
+
+setTimeout(function() {
+    process.exit(1);
+}, 7500);

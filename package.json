@@ -6,8 +6,9 @@
   "scripts": {
     "build": "node source/index.js",
     "server": "serve -p 10000 ./build",
+    "server:real": "serve -p 80 ./build",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "nodemon --watch source --watch articles source/index.js"
+    "watch": "nodemon --watch source --watch articles/**/*.md source/index.js"
   },
   "repository": {
     "type": "git",
