@@ -46,27 +46,66 @@ const authors = require(path.join(root, "data", "authors.json"));
 rimraf(buildDir);
 mkdir(buildDir);
 
+// Process markdown headers
+let markdownFiles = {},
+    filesByDate = {};
+fs.readdirSync(articlesDir)
+    .filter(filename => /\.md$/.test(filename))
+    .forEach(function(markdownFilename) {
+        console.log(`Parsing: ${markdownFilename}`);
+        let contents = fs.readFileSync(path.join(articlesDir, markdownFilename), "utf8"),
+            data = markdownTools.processContents(contents),
+            dateInfo = markdownTools.processDate(data.properties.date),
+            urlArticleName = markdownFilename.split(".")[0];
+        markdownFiles[markdownFilename] = {
+            contents: data.contents,
+            date: dateInfo,
+            properties: data.properties,
+            slug: urlArticleName
+        };
+        filesByDate[`${dateInfo.year}${dateInfo.month}${dateInfo.day}${urlArticleName}`] = markdownFilename;
+    });
+
+let newestArticles = Object.keys(filesByDate);
+newestArticles.sort();
+newestArticles.reverse();
+newestArticles = newestArticles
+    .map(key => markdownFiles[filesByDate[key]])
+    .slice(0, 3);
+let newestArticlesHTML = newestArticles
+    .map(function(articleData) {
+        return `
+            <li>
+                <article class="box post-summary">
+                    <h3><a href="#">${articleData.properties.title}</a></h3>
+                    <ul class="meta">
+                        <li class="icon fa-clock-o">6 hours ago</li>
+                        <li class="icon fa-comments"><a href="#">34</a></li>
+                    </ul>
+                </article>
+            </li>
+        `;
+    })
+    .join("\n");
+
 // Process markdown articles
-let markdownFiles = fs.readdirSync(articlesDir).filter(filename => /\.md$/.test(filename));
-let markdownProcedures = markdownFiles.map(function(markdownFilename) {
-    console.log(`Processing: ${markdownFilename}`);
-    let contents = fs.readFileSync(path.join(articlesDir, markdownFilename), "utf8"),
-        data = markdownTools.processContents(contents),
-        author = authors[data.properties.author],
-        urlArticleName = markdownFilename.split(".")[0];
-    let dateInfo = markdownTools.processDate(data.properties.date),
-        dirStructure = [dateInfo.year, dateInfo.month, urlArticleName],
+let markdownProcedures = Object.keys(markdownFiles).map(function(markdownFilename) {
+    let articleData = markdownFiles[markdownFilename];
+    console.log(`Processing: ${articleData.properties.title} (${markdownFilename})`);
+    let author = authors[articleData.properties.author],
+        dirStructure = [articleData.date.year, articleData.date.month, articleData.slug],
         articleOutputDir = path.join.apply(null, [buildDir, "article"].concat(dirStructure));
     if (!author) {
         throw new Error("Unknown author");
     }
     return Promise.resolve().then(function() {
-        let htmlContent = marked(data.contents.trim()),
+        let htmlContent = marked(articleData.contents.trim()),
             pageContent = templateTools.processArticlePage({
                 content: htmlContent,
-                title: data.properties.title,
-                subtitle: data.properties.subtitle,
-                headerImg: data.properties.headerImg
+                title: articleData.properties.title,
+                subtitle: articleData.properties.subtitle,
+                headerImg: articleData.properties.headerImg,
+                sidebarRecent: newestArticlesHTML
             });
         mkdir(articleOutputDir);
         fs.writeFileSync(
@@ -77,8 +116,8 @@ let markdownProcedures = markdownFiles.map(function(markdownFilename) {
     .then(function() {
         return new Promise(function(resolve, reject) {
             fs.copy(
-                path.join(articlesDir, urlArticleName, data.properties.headerImg),
-                path.join(articleOutputDir, data.properties.headerImg),
+                path.join(articlesDir, articleData.slug, articleData.properties.headerImg),
+                path.join(articleOutputDir, articleData.properties.headerImg),
                 function(err) {
                 if (err) {
                     reject(err);

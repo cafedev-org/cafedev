@@ -17,7 +17,8 @@ module.exports = {
             .replace(/\[CAFEDEV:CONTENT\]/g, data.content)
             .replace(/\[CAFEDEV:TITLE\]/g, data.title)
             .replace(/\[CAFEDEV:SUBTITLE\]/g, data.subtitle)
-            .replace(/\[CAFEDEV:HEADERIMG\]/g, data.headerImg);
+            .replace(/\[CAFEDEV:HEADERIMG\]/g, data.headerImg)
+            .replace(/\[CAFEDEV:SIDEBAR_RECENT\]/g, data.sidebarRecent);
     }
 
 };
