@@ -6,6 +6,6 @@ date:2016-06-01
 
 Some words are now here.
 
-```
+```js
 console.log("This is some javascript code" + aVariable);
 ```

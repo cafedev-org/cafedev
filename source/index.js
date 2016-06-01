@@ -1,17 +1,20 @@
 "use strict";
 
-const fs = require("fs");
+const fs = require("fs.extra");
 const path = require("path");
 
+const highlightJS = require("highlight.js");
 const marked = require("marked");
 const mkdir = require("mkdir-p").sync;
 const rimraf = require("rimraf").sync;
 
 const markdownTools = require("./markdown.js");
+const templateTools = require("./template.js");
 
 const root = path.resolve(path.join(__dirname, ".."));
 const articlesDir = path.join(root, "articles");
 const buildDir = path.join(root, "build");
+const themeDir = path.join(root, "assets", "theme");
 
 // Init
 marked.setOptions({
@@ -22,7 +25,10 @@ marked.setOptions({
     pedantic: false,
     sanitize: true,
     smartLists: true,
-    smartypants: false
+    smartypants: false,
+    highlight: function(code) {
+        return highlightJS.highlightAuto(code).value;
+    }
 });
 
 // Authors
@@ -45,10 +51,43 @@ markdownFiles.forEach(function(markdownFilename) {
     }
     let dateInfo = markdownTools.processDate(data.properties.date),
         dirStructure = [dateInfo.year, dateInfo.month, urlArticleName],
-        articleOutputDir = path.join.apply(null, [buildDir, "article"].concat(dirStructure));
+        articleOutputDir = path.join.apply(null, [buildDir, "article"].concat(dirStructure)),
+        htmlContent = marked(data.contents.trim()),
+        pageContent = templateTools.processArticlePage(htmlContent);
     mkdir(articleOutputDir);
     fs.writeFileSync(
         path.join(articleOutputDir, "index.html"),
-        data.contents.trim()
+        pageContent
     );
 });
+
+// Assets
+Promise
+    .all([
+        new Promise(function(resolve, reject) {
+            fs.copyRecursive(path.join(themeDir, "assets"), path.join(buildDir, "assets"), function(err) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve();
+                }
+            });
+        }),
+        new Promise(function(resolve, reject) {
+            fs.copyRecursive(path.join(themeDir, "images"), path.join(buildDir, "images"), function(err) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve();
+                }
+            });
+        })
+    ])
+    .then(function() {
+        console.log("Done.");
+    })
+    .catch(function(err) {
+        setTimeout(function() {
+            throw err;
+        });
+    });
