@@ -1,0 +1,26 @@
+{
+  "name": "cafedev",
+  "version": "0.1.1",
+  "description": "CafeDev website",
+  "main": "source/index.js",
+  "scripts": {
+    "build": "node source/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/perry-mitchell/cafedev.git"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/perry-mitchell/cafedev/issues"
+  },
+  "homepage": "https://github.com/perry-mitchell/cafedev#readme",
+  "private": true,
+  "dependencies": {
+    "marked": "^0.3.5",
+    "mkdir-p": "0.0.7",
+    "rimraf": "^2.5.2"
+  }
+}
