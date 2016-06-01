@@ -5,6 +5,7 @@
   "main": "source/index.js",
   "scripts": {
     "build": "node source/index.js",
+    "server": "serve -p 10000 ./build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

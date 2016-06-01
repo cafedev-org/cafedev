@@ -16,9 +16,17 @@ const articlesDir = path.join(root, "articles");
 const buildDir = path.join(root, "build");
 const themeDir = path.join(root, "assets", "theme");
 
+let renderer = new marked.Renderer(),
+    oldCodeRenderer = renderer.code.bind(renderer);
+renderer.code = function(text, language) {
+    let newCode = oldCodeRenderer(text, language);
+    newCode = newCode.replace(`<code class="`, `<code class="hljs `);
+    return newCode;
+}
+
 // Init
 marked.setOptions({
-    renderer: new marked.Renderer(),
+    renderer: renderer,
     gfm: true,
     tables: true,
     breaks: false,
