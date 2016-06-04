@@ -10,6 +10,7 @@ const rimraf = require("rimraf").sync;
 
 const markdownTools = require("./markdown.js");
 const templateTools = require("./template.js");
+const navTools = require("./nav.js");
 
 const root = path.resolve(path.join(__dirname, ".."));
 const articlesDir = path.join(root, "articles");
@@ -74,10 +75,11 @@ newestArticles = newestArticles
     .slice(0, 3);
 let newestArticlesHTML = newestArticles
     .map(function(articleData) {
+        let href = navTools.getLinkForArticle(articleData);
         return `
             <li>
                 <article class="box post-summary">
-                    <h3><a href="#">${articleData.properties.title}</a></h3>
+                    <h3><a href="${href}">${articleData.properties.title}</a></h3>
                     <ul class="meta">
                         <li class="icon fa-clock-o">6 hours ago</li>
                         <li class="icon fa-comments"><a href="#">34</a></li>
@@ -87,6 +89,12 @@ let newestArticlesHTML = newestArticles
         `;
     })
     .join("\n");
+
+// Process index
+let indexData = templateTools.processIndexPage({
+    sidebarRecent: newestArticlesHTML
+});
+fs.writeFileSync(path.join(buildDir, "index.html"), indexData);
 
 // Process markdown articles
 let markdownProcedures = Object.keys(markdownFiles).map(function(markdownFilename) {
