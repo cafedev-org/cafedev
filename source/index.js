@@ -11,6 +11,7 @@ const rimraf = require("rimraf").sync;
 const markdownTools = require("./markdown.js");
 const templateTools = require("./template.js");
 const navTools = require("./nav.js");
+const transferTools = require("./transfer.js");
 
 const root = path.resolve(path.join(__dirname, ".."));
 const articlesDir = path.join(root, "articles");
@@ -101,8 +102,9 @@ let markdownProcedures = Object.keys(markdownFiles).map(function(markdownFilenam
     let articleData = markdownFiles[markdownFilename];
     console.log(`Processing: ${articleData.properties.title} (${markdownFilename})`);
     let author = authors[articleData.properties.author],
-        dirStructure = [articleData.date.year, articleData.date.month, articleData.slug],
-        articleOutputDir = path.join.apply(null, [buildDir, "article"].concat(dirStructure));
+        articleOutputDir = navTools.getArticleDirectory(articleData);
+        //dirStructure = [articleData.date.year, articleData.date.month, articleData.slug],
+        //articleOutputDir = path.join.apply(null, [buildDir, "article"].concat(dirStructure));
     if (!author) {
         throw new Error("Unknown author");
     }
@@ -121,19 +123,26 @@ let markdownProcedures = Object.keys(markdownFiles).map(function(markdownFilenam
             pageContent
         );
     })
+    // .then(function() {
+    //     return transferTools.copyFiles(
+    //         path.join(articlesDir, articleData.slug, articleData.properties.headerImg),
+    //         path.join(articleOutputDir, articleData.properties.headerImg)
+    //     );
+    //     // return new Promise(function(resolve, reject) {
+    //     //     fs.copy(
+    //     //         path.join(articlesDir, articleData.slug, articleData.properties.headerImg),
+    //     //         path.join(articleOutputDir, articleData.properties.headerImg),
+    //     //         function(err) {
+    //     //         if (err) {
+    //     //             reject(err);
+    //     //         } else {
+    //     //             resolve();
+    //     //         }
+    //     //     });
+    //     // });
+    // })
     .then(function() {
-        return new Promise(function(resolve, reject) {
-            fs.copy(
-                path.join(articlesDir, articleData.slug, articleData.properties.headerImg),
-                path.join(articleOutputDir, articleData.properties.headerImg),
-                function(err) {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve();
-                }
-            });
-        });
+        return transferTools.transferArticleImages(articleData);
     });
 });
 
