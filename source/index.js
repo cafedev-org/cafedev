@@ -7,6 +7,7 @@ const highlightJS = require("highlight.js");
 const marked = require("marked");
 const mkdir = require("mkdir-p").sync;
 const rimraf = require("rimraf").sync;
+const sass = require("node-sass");
 
 const markdownTools = require("./markdown.js");
 const templateTools = require("./template.js");
@@ -59,12 +60,14 @@ fs.readdirSync(articlesDir)
             data = markdownTools.processContents(contents),
             dateInfo = markdownTools.processDate(data.properties.date),
             urlArticleName = markdownFilename.split(".")[0];
-        markdownFiles[markdownFilename] = {
+        let articleData = {
             contents: data.contents,
             date: dateInfo,
             properties: data.properties,
             slug: urlArticleName
         };
+        articleData.href = navTools.getLinkForArticle(articleData);
+        markdownFiles[markdownFilename] = articleData;
         filesByDate[`${dateInfo.year}${dateInfo.month}${dateInfo.day}${urlArticleName}`] = markdownFilename;
     });
 
@@ -74,29 +77,40 @@ newestArticles.reverse();
 newestArticles = newestArticles
     .map(key => markdownFiles[filesByDate[key]])
     .slice(0, 3);
-let newestArticlesHTML = newestArticles
-    .map(function(articleData) {
-        let href = navTools.getLinkForArticle(articleData),
-            commentsHref = navTools.getLinkForArticleComments(articleData),
-            date = markdownTools.getDateForArticle(articleData);
-        return `
-            <li>
-                <article class="box post-summary">
-                    <h3><a href="${href}">${articleData.properties.title}</a></h3>
-                    <ul class="meta">
-                        <li class="icon fa-clock-o">${date}</li>
-                        <li class="icon fa-comments"><a href="${commentsHref}" class="disqus-comment-count" data-disqus-identifie="${articleData.slug}">&hellip;</a></li>
-                    </ul>
-                </article>
-            </li>
-        `;
-    })
-    .join("\n");
+// let newestArticlesHTML = newestArticles
+//     .map(function(articleData) {
+//         let href = navTools.getLinkForArticle(articleData),
+//             commentsHref = navTools.getLinkForArticleComments(articleData),
+//             date = markdownTools.getDateForArticle(articleData);
+//         return `
+//             <li>
+//                 <article class="box post-summary">
+//                     <h3><a href="${href}">${articleData.properties.title}</a></h3>
+//                     <ul class="meta">
+//                         <li class="icon fa-clock-o">${date}</li>
+//                         <li class="icon fa-comments"><a href="${commentsHref}" class="disqus-comment-count" data-disqus-identifie="${articleData.slug}">&hellip;</a></li>
+//                     </ul>
+//                 </article>
+//             </li>
+//         `;
+//     })
+//     .join("\n");
+
+// Styling
+console.log("Processing SASS");
+let indexCSS = sass.renderSync({
+        file: path.join(themeDir, "style", "home.sass")
+    }).css.toString("utf8"),
+    articleCSS = sass.renderSync({
+        file: path.join(themeDir, "style", "article.sass")
+    }).css.toString("utf8");
 
 // Process index
-let indexData = templateTools.processIndexPage({
-    sidebarRecent: newestArticlesHTML
-});
+console.log("Processing index");
+let indexData = templateTools.processIndexPage(
+    indexCSS,
+    newestArticles
+);
 fs.writeFileSync(path.join(buildDir, "index.html"), indexData);
 
 // Process markdown articles
@@ -110,13 +124,16 @@ let markdownProcedures = Object.keys(markdownFiles).map(function(markdownFilenam
     }
     return Promise.resolve().then(function() {
         let htmlContent = marked(articleData.contents.trim()),
-            pageContent = templateTools.processArticlePage({
-                content: htmlContent,
-                title: articleData.properties.title,
-                subtitle: articleData.properties.subtitle,
-                headerImg: articleData.properties.headerImg,
-                sidebarRecent: newestArticlesHTML
-            });
+            pageContent = templateTools.processArticlePage(
+                Object.assign(
+                    articleData,
+                    {
+                        content: htmlContent
+                    }
+                ),
+                articleCSS,
+                newestArticles
+            );
         mkdir(articleOutputDir);
         fs.writeFileSync(
             path.join(articleOutputDir, "index.html"),
@@ -130,26 +147,27 @@ let markdownProcedures = Object.keys(markdownFiles).map(function(markdownFilenam
 
 // Assets
 Promise
-    .all(markdownProcedures.concat([
-        new Promise(function(resolve, reject) {
-            fs.copyRecursive(path.join(themeDir, "assets"), path.join(buildDir, "assets"), function(err) {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve();
-                }
-            });
-        }),
-        new Promise(function(resolve, reject) {
-            fs.copyRecursive(path.join(themeDir, "images"), path.join(buildDir, "images"), function(err) {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve();
-                }
-            });
-        })
-    ]))
+    .all(markdownProcedures)
+    // .all(markdownProcedures.concat([
+    //     new Promise(function(resolve, reject) {
+    //         fs.copyRecursive(path.join(themeDir, "assets"), path.join(buildDir, "assets"), function(err) {
+    //             if (err) {
+    //                 reject(err);
+    //             } else {
+    //                 resolve();
+    //             }
+    //         });
+    //     }),
+    //     new Promise(function(resolve, reject) {
+    //         fs.copyRecursive(path.join(themeDir, "images"), path.join(buildDir, "images"), function(err) {
+    //             if (err) {
+    //                 reject(err);
+    //             } else {
+    //                 resolve();
+    //             }
+    //         });
+    //     })
+    // ]))
     .then(function() {
         console.log("Done.");
         process.exit(0);

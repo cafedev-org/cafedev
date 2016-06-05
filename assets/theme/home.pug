@@ -1,0 +1,13 @@
+doctype html
+html(lang="en")
+
+    head
+        title= title
+        style(type="text/css")= styles
+        script(type='text/javascript').
+            console.log("test");
+
+    body
+        h1 Home
+        div
+            include ./includes/recentList.pug
