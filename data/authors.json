@@ -2,6 +2,13 @@
     "perry.mitchell": {
         "firstname": "Perry",
         "lastname": "Mitchell",
-        "twitter": "perry_mitchell"
+        "twitter": "perry_mitchell",
+        "type": "owner"
+    },
+    "sallar.kaboli": {
+        "firstname": "Sallar",
+        "lastname": "Kaboli",
+        "twitter": "sallar",
+        "type": "owner"
     }
 }
