@@ -84,7 +84,7 @@ let newestArticlesHTML = newestArticles
                     <h3><a href="${href}">${articleData.properties.title}</a></h3>
                     <ul class="meta">
                         <li class="icon fa-clock-o">${date}</li>
-                        <li class="icon fa-comments"><a href="#" class="disqus-comment-count" data-disqus-url="${href}">&hellip;</a></li>
+                        <li class="icon fa-comments"><a href="${href}" class="disqus-comment-count" data-disqus-identifie="${articleData.slug}">&hellip;</a></li>
                     </ul>
                 </article>
             </li>
