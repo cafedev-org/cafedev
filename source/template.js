@@ -20,6 +20,7 @@ const lib = module.exports = {
             subtitle: data.properties.subtitle,
             slug: data.slug,
             imgHeader: data.properties.headerImg,
+            href: data.href,
             linkHome: navTools.getLinkForHome(),
             recentArticles: recentArticlesData.map(lib.transformArticleDataForTemplate),
             styles: styles

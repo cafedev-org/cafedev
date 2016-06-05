@@ -8,10 +8,12 @@ html(lang="en")
             console.log("test");
 
     body
-        article
-            section
-                h1= title
-                span= subtitle
-                img(src=imgHeader)
+        div
+            article
+                section
+                    h1= title
+                    span= subtitle
+                    img(src=imgHeader)
+            include ./includes/disqus.pug
         div
             include ./includes/recentList.pug

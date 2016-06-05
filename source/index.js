@@ -60,12 +60,14 @@ fs.readdirSync(articlesDir)
             data = markdownTools.processContents(contents),
             dateInfo = markdownTools.processDate(data.properties.date),
             urlArticleName = markdownFilename.split(".")[0];
-        markdownFiles[markdownFilename] = {
+        let articleData = {
             contents: data.contents,
             date: dateInfo,
             properties: data.properties,
             slug: urlArticleName
         };
+        articleData.href = navTools.getLinkForArticle(articleData);
+        markdownFiles[markdownFilename] = articleData;
         filesByDate[`${dateInfo.year}${dateInfo.month}${dateInfo.day}${urlArticleName}`] = markdownFilename;
     });
 
