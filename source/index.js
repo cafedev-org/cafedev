@@ -74,29 +74,27 @@ newestArticles.reverse();
 newestArticles = newestArticles
     .map(key => markdownFiles[filesByDate[key]])
     .slice(0, 3);
-let newestArticlesHTML = newestArticles
-    .map(function(articleData) {
-        let href = navTools.getLinkForArticle(articleData),
-            commentsHref = navTools.getLinkForArticleComments(articleData),
-            date = markdownTools.getDateForArticle(articleData);
-        return `
-            <li>
-                <article class="box post-summary">
-                    <h3><a href="${href}">${articleData.properties.title}</a></h3>
-                    <ul class="meta">
-                        <li class="icon fa-clock-o">${date}</li>
-                        <li class="icon fa-comments"><a href="${commentsHref}" class="disqus-comment-count" data-disqus-identifie="${articleData.slug}">&hellip;</a></li>
-                    </ul>
-                </article>
-            </li>
-        `;
-    })
-    .join("\n");
+// let newestArticlesHTML = newestArticles
+//     .map(function(articleData) {
+//         let href = navTools.getLinkForArticle(articleData),
+//             commentsHref = navTools.getLinkForArticleComments(articleData),
+//             date = markdownTools.getDateForArticle(articleData);
+//         return `
+//             <li>
+//                 <article class="box post-summary">
+//                     <h3><a href="${href}">${articleData.properties.title}</a></h3>
+//                     <ul class="meta">
+//                         <li class="icon fa-clock-o">${date}</li>
+//                         <li class="icon fa-comments"><a href="${commentsHref}" class="disqus-comment-count" data-disqus-identifie="${articleData.slug}">&hellip;</a></li>
+//                     </ul>
+//                 </article>
+//             </li>
+//         `;
+//     })
+//     .join("\n");
 
 // Process index
-let indexData = templateTools.processIndexPage({
-    sidebarRecent: newestArticlesHTML
-});
+let indexData = templateTools.processIndexPage(newestArticles);
 fs.writeFileSync(path.join(buildDir, "index.html"), indexData);
 
 // Process markdown articles
@@ -110,13 +108,15 @@ let markdownProcedures = Object.keys(markdownFiles).map(function(markdownFilenam
     }
     return Promise.resolve().then(function() {
         let htmlContent = marked(articleData.contents.trim()),
-            pageContent = templateTools.processArticlePage({
-                content: htmlContent,
-                title: articleData.properties.title,
-                subtitle: articleData.properties.subtitle,
-                headerImg: articleData.properties.headerImg,
-                sidebarRecent: newestArticlesHTML
-            });
+            pageContent = templateTools.processArticlePage(
+                Object.assign(
+                    articleData,
+                    {
+                        content: htmlContent
+                    }
+                ),
+                newestArticles
+            );
         mkdir(articleOutputDir);
         fs.writeFileSync(
             path.join(articleOutputDir, "index.html"),
@@ -130,26 +130,27 @@ let markdownProcedures = Object.keys(markdownFiles).map(function(markdownFilenam
 
 // Assets
 Promise
-    .all(markdownProcedures.concat([
-        new Promise(function(resolve, reject) {
-            fs.copyRecursive(path.join(themeDir, "assets"), path.join(buildDir, "assets"), function(err) {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve();
-                }
-            });
-        }),
-        new Promise(function(resolve, reject) {
-            fs.copyRecursive(path.join(themeDir, "images"), path.join(buildDir, "images"), function(err) {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve();
-                }
-            });
-        })
-    ]))
+    .all(markdownProcedures)
+    // .all(markdownProcedures.concat([
+    //     new Promise(function(resolve, reject) {
+    //         fs.copyRecursive(path.join(themeDir, "assets"), path.join(buildDir, "assets"), function(err) {
+    //             if (err) {
+    //                 reject(err);
+    //             } else {
+    //                 resolve();
+    //             }
+    //         });
+    //     }),
+    //     new Promise(function(resolve, reject) {
+    //         fs.copyRecursive(path.join(themeDir, "images"), path.join(buildDir, "images"), function(err) {
+    //             if (err) {
+    //                 reject(err);
+    //             } else {
+    //                 resolve();
+    //             }
+    //         });
+    //     })
+    // ]))
     .then(function() {
         console.log("Done.");
         process.exit(0);
