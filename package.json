@@ -29,5 +29,9 @@
     "pygmentize-bundled": "^2.3.0",
     "rimraf": "^2.5.2",
     "walk": "^2.3.9"
+  },
+  "devDependencies": {
+    "nodemon": "^1.9.2",
+    "serve": "^1.4.0"
   }
 }

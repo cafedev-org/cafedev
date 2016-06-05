@@ -44,7 +44,6 @@ const lib = module.exports = {
                 reject();
             });
             walker.on("end", function() {
-                console.log("images done");
                 resolve(images);
             });
         });
