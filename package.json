@@ -26,6 +26,7 @@
     "highlight.js": "^9.4.0",
     "marked": "^0.3.5",
     "mkdir-p": "0.0.7",
+    "node-sass": "^3.7.0",
     "pug": "^2.0.0-beta2",
     "pygmentize-bundled": "^2.3.0",
     "rimraf": "^2.5.2",

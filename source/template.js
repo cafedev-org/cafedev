@@ -14,14 +14,15 @@ const articlePageTemplate = path.join(root, "assets", "theme", "article.pug");
 
 const lib = module.exports = {
 
-    processArticlePage: function(data, recentArticlesData = []) {
+    processArticlePage: function(data, styles, recentArticlesData = []) {
         let html = pug.renderFile(articlePageTemplate, {
             title: data.properties.title,
             subtitle: data.properties.subtitle,
             slug: data.slug,
             imgHeader: data.properties.headerImg,
             linkHome: navTools.getLinkForHome(),
-            recentArticles: recentArticlesData.map(lib.transformArticleDataForTemplate)
+            recentArticles: recentArticlesData.map(lib.transformArticleDataForTemplate),
+            styles: styles
         });
         return html;
         // return articlePageTemplate
@@ -34,11 +35,12 @@ const lib = module.exports = {
         //     .replace(/\[CAFEDEV:HOME\]/g, navTools.getLinkForHome());
     },
 
-    processIndexPage: function(recentArticlesData = []) {
+    processIndexPage: function(styles, recentArticlesData = []) {
         let html = pug.renderFile(indexPageTemplate, {
             title: "Cafe Dev",
             linkHome: navTools.getLinkForHome(),
-            recentArticles: recentArticlesData.map(lib.transformArticleDataForTemplate)
+            recentArticles: recentArticlesData.map(lib.transformArticleDataForTemplate),
+            styles: styles
         });
         return html;
         // return indexPageTemplate

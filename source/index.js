@@ -7,6 +7,7 @@ const highlightJS = require("highlight.js");
 const marked = require("marked");
 const mkdir = require("mkdir-p").sync;
 const rimraf = require("rimraf").sync;
+const sass = require("node-sass");
 
 const markdownTools = require("./markdown.js");
 const templateTools = require("./template.js");
@@ -93,8 +94,21 @@ newestArticles = newestArticles
 //     })
 //     .join("\n");
 
+// Styling
+console.log("Processing SASS");
+let indexCSS = sass.renderSync({
+        file: path.join(themeDir, "style", "home.sass")
+    }).css.toString("utf8"),
+    articleCSS = sass.renderSync({
+        file: path.join(themeDir, "style", "article.sass")
+    }).css.toString("utf8");
+
 // Process index
-let indexData = templateTools.processIndexPage(newestArticles);
+console.log("Processing index");
+let indexData = templateTools.processIndexPage(
+    indexCSS,
+    newestArticles
+);
 fs.writeFileSync(path.join(buildDir, "index.html"), indexData);
 
 // Process markdown articles
@@ -115,6 +129,7 @@ let markdownProcedures = Object.keys(markdownFiles).map(function(markdownFilenam
                         content: htmlContent
                     }
                 ),
+                articleCSS,
                 newestArticles
             );
         mkdir(articleOutputDir);
