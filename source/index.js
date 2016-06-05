@@ -103,8 +103,6 @@ let markdownProcedures = Object.keys(markdownFiles).map(function(markdownFilenam
     console.log(`Processing: ${articleData.properties.title} (${markdownFilename})`);
     let author = authors[articleData.properties.author],
         articleOutputDir = navTools.getArticleDirectory(articleData);
-        //dirStructure = [articleData.date.year, articleData.date.month, articleData.slug],
-        //articleOutputDir = path.join.apply(null, [buildDir, "article"].concat(dirStructure));
     if (!author) {
         throw new Error("Unknown author");
     }
@@ -123,24 +121,6 @@ let markdownProcedures = Object.keys(markdownFiles).map(function(markdownFilenam
             pageContent
         );
     })
-    // .then(function() {
-    //     return transferTools.copyFiles(
-    //         path.join(articlesDir, articleData.slug, articleData.properties.headerImg),
-    //         path.join(articleOutputDir, articleData.properties.headerImg)
-    //     );
-    //     // return new Promise(function(resolve, reject) {
-    //     //     fs.copy(
-    //     //         path.join(articlesDir, articleData.slug, articleData.properties.headerImg),
-    //     //         path.join(articleOutputDir, articleData.properties.headerImg),
-    //     //         function(err) {
-    //     //         if (err) {
-    //     //             reject(err);
-    //     //         } else {
-    //     //             resolve();
-    //     //         }
-    //     //     });
-    //     // });
-    // })
     .then(function() {
         return transferTools.transferArticleImages(articleData);
     });
@@ -177,7 +157,3 @@ Promise
             throw err;
         });
     });
-
-setTimeout(function() {
-    process.exit(1);
-}, 7500);
