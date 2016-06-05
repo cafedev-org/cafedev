@@ -20,7 +20,7 @@ module.exports = {
                 year, month
             ] = articleData.properties.date.split("-"),
             slug = articleData.slug;
-        return `${config.protocol}://${config.domain}/article/${year}/${month}/${slug}`;
+        return `${config.protocol}://${config.domain}/article/${year}/${month}/${slug}#disqus_thread`;
     },
 
     getLinkForHome: function() {

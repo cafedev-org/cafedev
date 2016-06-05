@@ -22,6 +22,7 @@ module.exports = {
             .replace(/\[CAFEDEV:CONTENT\]/g, data.content)
             .replace(/\[CAFEDEV:TITLE\]/g, data.title)
             .replace(/\[CAFEDEV:SUBTITLE\]/g, data.subtitle)
+            .replace(/\[CAFEDEV:SLUG\]/g, data.slug)
             .replace(/\[CAFEDEV:HEADERIMG\]/g, data.headerImg)
             .replace(/\[CAFEDEV:SIDEBAR_RECENT\]/g, data.sidebarRecent)
             .replace(/\[CAFEDEV:HOME\]/g, navTools.getLinkForHome());
