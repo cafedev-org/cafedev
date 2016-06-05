@@ -76,13 +76,14 @@ newestArticles = newestArticles
     .slice(0, 3);
 let newestArticlesHTML = newestArticles
     .map(function(articleData) {
-        let href = navTools.getLinkForArticle(articleData);
+        let href = navTools.getLinkForArticle(articleData),
+            date = markdownTools.getDateForArticle(articleData);
         return `
             <li>
                 <article class="box post-summary">
                     <h3><a href="${href}">${articleData.properties.title}</a></h3>
                     <ul class="meta">
-                        <li class="icon fa-clock-o">6 hours ago</li>
+                        <li class="icon fa-clock-o">${date}</li>
                         <li class="icon fa-comments"><a href="#">34</a></li>
                     </ul>
                 </article>

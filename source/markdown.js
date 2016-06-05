@@ -7,7 +7,30 @@ const MONTHS = [
     "July", "August", "September", "October", "November", "December"
 ];
 
+function getDaySuffix(day) {
+    let strDay = "" + day,
+        lastDigit = strDay[strDay.length - 1];
+    switch (lastDigit) {
+        case "1":
+            return "st";
+        case "2":
+            return "nd";
+        case "3":
+            return "rd";
+        default:
+            return "th";
+    }
+}
+
 module.exports = {
+
+    getDateForArticle: function(articleData) {
+        let [ year, month, day ] = articleData.properties.date.split("-"),
+            monthName = MONTHS[month - 1],
+            suffix = getDaySuffix(day);
+        day = day.toString().replace(/^0/, "");
+        return `${day}${suffix} ${monthName} ${year}`;
+    },
 
     processContents: function(markdownData) {
         let headerMatch = markdownData.match(VALID_HEADER);
