@@ -8,6 +8,7 @@ const marked = require("marked");
 const mkdir = require("mkdir-p").sync;
 const rimraf = require("rimraf").sync;
 const sass = require("node-sass");
+const typeset = require("typeset");
 
 const markdownTools = require("./markdown.js");
 const templateTools = require("./template.js");
@@ -123,7 +124,7 @@ let markdownProcedures = Object.keys(markdownFiles).map(function(markdownFilenam
         throw new Error("Unknown author");
     }
     return Promise.resolve().then(function() {
-        let htmlContent = marked(articleData.contents.trim()),
+        let htmlContent = typeset(marked(articleData.contents.trim())),
             pageContent = templateTools.processArticlePage(
                 Object.assign(
                     articleData,
