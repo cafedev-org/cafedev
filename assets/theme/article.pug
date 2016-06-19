@@ -3,6 +3,9 @@ extends ./includes/layout.pug
 block title
     title= title + " // Cafe Dev"
 
+block meta
+    meta(name="keywords",content=keywords)
+
 block content
     article
         header
@@ -11,5 +14,5 @@ block content
         figure
             img(src=imgHeader)
         section!= content
-        
+
     include ./includes/disqus.pug

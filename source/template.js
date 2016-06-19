@@ -23,19 +23,12 @@ const lib = module.exports = {
             content: data.content,
             imgHeader: data.properties.headerImg,
             href: data.href,
-            keywords : tags,
+            keywords : data.properties.tags || "",
+            tags: tags,
             linkHome: navTools.getLinkForHome(),
             recentArticles: recentArticlesData.map(lib.transformArticleDataForTemplate)
         });
         return html;
-        // return articlePageTemplate
-        //     .replace(/\[CAFEDEV:CONTENT\]/g, data.content)
-        //     .replace(/\[CAFEDEV:TITLE\]/g, data.title)
-        //     .replace(/\[CAFEDEV:SUBTITLE\]/g, data.subtitle)
-        //     .replace(/\[CAFEDEV:SLUG\]/g, data.slug)
-        //     .replace(/\[CAFEDEV:HEADERIMG\]/g, data.headerImg)
-        //     .replace(/\[CAFEDEV:SIDEBAR_RECENT\]/g, data.sidebarRecent)
-        //     .replace(/\[CAFEDEV:HOME\]/g, navTools.getLinkForHome());
     },
 
     processIndexPage: function(recentArticlesData = []) {
@@ -45,9 +38,6 @@ const lib = module.exports = {
             recentArticles: recentArticlesData.map(lib.transformArticleDataForTemplate)
         });
         return html;
-        // return indexPageTemplate
-        //     .replace(/\[CAFEDEV:SIDEBAR_RECENT\]/g, data.sidebarRecent)
-        //     .replace(/\[CAFEDEV:HOME\]/g, navTools.getLinkForHome());
     },
 
     transformArticleDataForTemplate: function(articleData) {
