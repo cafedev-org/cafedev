@@ -15,6 +15,7 @@ const articlePageTemplate = path.join(root, "assets", "theme", "article.pug");
 const lib = module.exports = {
 
     processArticlePage: function(data, recentArticlesData = []) {
+        let tags = data.properties.tags ? data.properties.tags.split(",") : [];
         let html = pug.renderFile(articlePageTemplate, {
             title: data.properties.title,
             subtitle: data.properties.subtitle,
@@ -22,6 +23,7 @@ const lib = module.exports = {
             content: data.content,
             imgHeader: data.properties.headerImg,
             href: data.href,
+            keywords : tags,
             linkHome: navTools.getLinkForHome(),
             recentArticles: recentArticlesData.map(lib.transformArticleDataForTemplate)
         });
