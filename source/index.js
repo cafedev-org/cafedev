@@ -83,17 +83,15 @@ newestArticles = newestArticles
 
 // Styling
 console.log("Processing SASS");
-let indexCSS = sass.renderSync({
-        file: path.join(themeDir, "style", "home.sass")
-    }).css.toString("utf8"),
-    articleCSS = sass.renderSync({
-        file: path.join(themeDir, "style", "article.sass")
-    }).css.toString("utf8");
+let cssData = sass.renderSync({
+    file: path.join(themeDir, "style", "index.sass")
+}).css.toString("utf8");
+mkdir(path.join(buildDir, "static"));
+fs.writeFileSync(path.join(buildDir, "static/style.css"), cssData);
 
 // Process index
 console.log("Processing index");
 let indexData = templateTools.processIndexPage(
-    indexCSS,
     newestArticles
 );
 fs.writeFileSync(path.join(buildDir, "index.html"), indexData);
@@ -116,7 +114,6 @@ let markdownProcedures = Object.keys(markdownFiles).map(function(markdownFilenam
                         content: htmlContent
                     }
                 ),
-                articleCSS,
                 newestArticles
             );
         mkdir(articleOutputDir);

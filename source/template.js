@@ -14,7 +14,7 @@ const articlePageTemplate = path.join(root, "assets", "theme", "article.pug");
 
 const lib = module.exports = {
 
-    processArticlePage: function(data, styles, recentArticlesData = []) {
+    processArticlePage: function(data, recentArticlesData = []) {
         let html = pug.renderFile(articlePageTemplate, {
             title: data.properties.title,
             subtitle: data.properties.subtitle,
@@ -23,8 +23,7 @@ const lib = module.exports = {
             imgHeader: data.properties.headerImg,
             href: data.href,
             linkHome: navTools.getLinkForHome(),
-            recentArticles: recentArticlesData.map(lib.transformArticleDataForTemplate),
-            styles: styles
+            recentArticles: recentArticlesData.map(lib.transformArticleDataForTemplate)
         });
         return html;
         // return articlePageTemplate
@@ -37,12 +36,11 @@ const lib = module.exports = {
         //     .replace(/\[CAFEDEV:HOME\]/g, navTools.getLinkForHome());
     },
 
-    processIndexPage: function(styles, recentArticlesData = []) {
+    processIndexPage: function(recentArticlesData = []) {
         let html = pug.renderFile(indexPageTemplate, {
             title: "Cafe Dev",
             linkHome: navTools.getLinkForHome(),
-            recentArticles: recentArticlesData.map(lib.transformArticleDataForTemplate),
-            styles: styles
+            recentArticles: recentArticlesData.map(lib.transformArticleDataForTemplate)
         });
         return html;
         // return indexPageTemplate

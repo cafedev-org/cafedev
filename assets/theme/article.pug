@@ -1,19 +1,15 @@
-doctype html
-html(lang="en")
+extends ./includes/layout.pug
 
-    head
-        title= title + " // Cafe Dev"
-        style(type="text/css")= styles
+block title
+    title= title + " // Cafe Dev"
 
-    body
-        div
-            article
-                section
-                    h1= title
-                    span= subtitle
-                    img(src=imgHeader)
-                section!= content
-            include ./includes/disqus.pug
-        div
-            include ./includes/recentList.pug
-        include ./includes/footer.pug
+block content
+    article
+        header
+            h1= title
+            span= subtitle
+        figure
+            img(src=imgHeader)
+        section!= content
+        
+    include ./includes/disqus.pug
