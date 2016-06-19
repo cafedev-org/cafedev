@@ -4,14 +4,16 @@ block title
     title= title + " // Cafe Dev"
 
 block meta
-    meta(name="keywords",content=keywords)
+    meta(name="keywords", content=keywords)
+    meta(name="description", content=description)
+    include ./includes/socialMeta.pug
 
 block content
     article
         header
             a(href=href)
                 h2= title
-            h6 Written by Perry Mitchell / 2016-06-19
+            h6 Written by #{author.firstname} #{author.lastname} / #{date}
         figure
             img(src=imgHeader)
         section!= content

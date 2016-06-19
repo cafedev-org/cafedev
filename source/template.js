@@ -18,13 +18,16 @@ const lib = module.exports = {
         let tags = data.properties.tags ? data.properties.tags.split(",") : [];
         let html = pug.renderFile(articlePageTemplate, {
             title: data.properties.title,
-            subtitle: data.properties.subtitle,
+            description: data.properties.description,
             slug: data.slug,
             content: data.content,
             imgHeader: data.properties.headerImg,
+            imgHeaderAbs: `${data.href}/${data.properties.headerImg}`,
             href: data.href,
             keywords : data.properties.tags || "",
             tags: tags,
+            date: data.fullDate,
+            author: data.author,
             linkHome: navTools.getLinkForHome(),
             recentArticles: recentArticlesData.map(lib.transformArticleDataForTemplate)
         });
@@ -43,7 +46,7 @@ const lib = module.exports = {
     transformArticleDataForTemplate: function(articleData) {
         return {
             title: articleData.properties.title,
-            subtitle: articleData.properties.subtitle,
+            description: articleData.properties.description,
             link: navTools.getLinkForArticle(articleData),
             slug: articleData.slug
         };

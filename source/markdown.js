@@ -1,6 +1,6 @@
 "use strict";
 
-const VALID_HEADER = /^<!--[\s\n]+?author:[\w.]+(.|\n)+-->/m;
+const VALID_HEADER = /^<!--[\s\n]+?author=[\w.]+(.|\n)+-->/m;
 
 const MONTHS = [
     "January", "February", "March", "April", "May", "June",
@@ -25,11 +25,15 @@ function getDaySuffix(day) {
 module.exports = {
 
     getDateForArticle: function(articleData) {
-        let [ year, month, day ] = articleData.properties.date.split("-"),
+        let dateParts = articleData.properties.date.split(" "),
+            datePortion = dateParts[0],
+            timePortion = dateParts[1];
+        let [ year, month, day ] = datePortion.split("-"),
             monthName = MONTHS[month - 1],
             suffix = getDaySuffix(day);
-        day = day.toString().replace(/^0/, "");
-        return `${day}${suffix} ${monthName} ${year}`;
+        //day = day.toString().replace(/^0/, "");
+        //return `${day}${suffix} ${monthName} ${year}`;
+        return `${year}-${month}-${day} ${timePortion}`;
     },
 
     processContents: function(markdownData) {
@@ -41,8 +45,8 @@ module.exports = {
             props = {};
         markdownData = markdownData.substr(header.length);
         header.split("\n").forEach(function(line) {
-            if (/[a-z]+:.+?/.test(line)) {
-                let propData = line.split(":");
+            if (/[a-zA-Z]+=[^=]+?/.test(line)) {
+                let propData = line.split("=");
                 props[propData[0].trim()] = propData[1].trim();
             }
         });
@@ -53,11 +57,12 @@ module.exports = {
     },
 
     processDate: function(str) {
+        let datePortion = str.split(" ")[0];
         let [
             year,
             month,
             day
-        ] = str.split("-");
+        ] = datePortion.split("-");
         let monthName = MONTHS[month - 1];
         return {
             year, month, day,
