@@ -1,7 +1,7 @@
 <!--
 author:perry.mitchell
 date:2016-06-04
-title:NodeJS watch and serve
+title:NodeJS Watch and Serve
 subtitle:Developing NodeJS apps by watching and serving source
 headerImg:watch.jpg
 tags:nodejs,watching,serving

@@ -1,18 +1,48 @@
-@import "https://fonts.googleapis.com/css?family=Lora"
+@import "https://fonts.googleapis.com/css?family=Lora:400,700|Roboto+Mono:300,400"
 @import "../../../node_modules/pavilion/scss/pavilion"
 @import lib/typeset
 @import lib/code
 
+$fonts-mono: 'Roboto Mono', monospace
+$fonts-regular: Lora, serif
+
+$black: #3C3530
+$pink: #F16B6F
+$green: #AACD6E
+$gray: #C5C6B6
+
 body, html
-    font-family: Lora, serif
+    font-family: $fonts-regular
 
 figure
     padding: 0
     margin: 0
 
+span.dot
+    &:after
+        opacity: .4;
+        content: "·";
+
 article
     header
-        margin-bottom: 1rem
+        margin-bottom: 2rem
+        font-family: $fonts-mono
+
+        a, a:visited
+            color: $black
+            text-decoration: none
+
+        h2
+            font-weight: 400
+            margin: 0
+
+            &::after
+                opacity: .4;
+                content: "¬";
+
+        h6
+            color: $hard-gray
+            margin: 1em 0 0
 
     > figure
         margin-bottom: 2rem
@@ -20,3 +50,20 @@ article
     img
         display: block
         max-width: 100%
+
+nav
+    padding-top: 1rem
+    font-family: $fonts-mono
+
+    ul
+        list-style: none
+        padding: 0
+        margin: 0
+
+        li
+            display: block
+
+        a
+            color: $hard-gray
+            text-decoration: none
+            display: block
