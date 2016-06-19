@@ -10,10 +10,36 @@ article
         h2
             font-weight: 400
             margin: 0
+            position: relative
 
-            &::after
-                opacity: .4;
-                content: "¬";
+            .dot
+                position: relative
+                &::after
+                    position: absolute
+                    left: 50%;
+                    top: 46%;
+                    -webkit-transform: translate(-50%,-50%);
+                    transform: translate(-50%,-50%);
+                    opacity: .4;
+                    content: "·";
+
+                &.-last
+                    visibility: hidden
+
+            .dotted
+                position: absolute
+                top: 0
+                left: 0
+                right: 0
+                bottom: 0
+
+                &::after
+                    opacity: .4;
+                    content: "¬";
+
+            .original
+                color: transparent
+                position: relative
 
         h6
             color: $hard-gray
