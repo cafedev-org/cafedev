@@ -22,6 +22,7 @@ const lib = module.exports = {
             slug: data.slug,
             content: data.content,
             imgHeader: data.properties.headerImg,
+            imgHeaderAbs: `${data.href}/${data.properties.headerImg}`,
             href: data.href,
             keywords : data.properties.tags || "",
             tags: tags,
