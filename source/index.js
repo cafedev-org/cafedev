@@ -1,6 +1,6 @@
 "use strict";
 
-const fs = require("fs.extra");
+const fs = require("fs-extra");
 const path = require("path");
 
 const highlightJS = require("highlight.js");
@@ -92,6 +92,10 @@ let cssData = sass.renderSync({
 }).css.toString("utf8");
 mkdir(path.join(buildDir, "static"));
 fs.writeFileSync(path.join(buildDir, "static/style.css"), cssData);
+
+// Static assets
+console.log("Copying theme assets");
+fs.copySync(path.join(themeDir, "static"), path.join(buildDir, "static"));
 
 // Process index
 console.log("Processing index");
