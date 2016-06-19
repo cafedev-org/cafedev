@@ -1,0 +1,13 @@
+doctype html
+html(lang="en")
+
+    head
+        block title
+            title Cafe Dev
+        style(type="text/css")= styles
+
+    body
+        section.container
+            section.flex-row
+                block content
+        include ./footer.pug

@@ -1,12 +1,9 @@
-doctype html
-html(lang="en")
+extends ./includes/layout.pug
 
-    head
-        title= title
-        style(type="text/css")= styles
+block title
+    title= title
 
-    body
-        h1 Home
-        div
-            include ./includes/recentList.pug
-        include ./includes/footer.pug
+block content
+    h1 Home
+    div
+        include ./includes/recentList.pug
