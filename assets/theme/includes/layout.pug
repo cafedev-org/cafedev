@@ -4,6 +4,7 @@ html(lang="en")
     head
         block title
             title Cafe Dev
+        meta(charset="utf-8")
         link(type="text/css", href="/static/style.css", rel="stylesheet")
 
     body
@@ -14,11 +15,11 @@ html(lang="en")
                 nav.col-dt-25
                     ul
                         li
-                            a(href="/") Home
+                            a(href="/") ~/
                         li
-                            a(href="/about") About
+                            a(href="/about") ~/about
                         li
-                            a(href="/contact") Publishing
+                            a(href="/contact") ~/contact
                 section.col-dt-75
                     block content
         include ./footer.pug

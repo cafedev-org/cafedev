@@ -6,10 +6,14 @@ block title
 block content
     article
         header
-            h1= title
-            span= subtitle
+            a(href=href)
+                h2= title
+            h6 Written by Perry Mitchell / 2016-06-19
         figure
             img(src=imgHeader)
         section!= content
-        
+
     include ./includes/disqus.pug
+    script.
+        var titleEl = document.querySelector("article h2");
+        titleEl.innerHTML = titleEl.innerHTML.replace(/\s/g, "<span class=dot></span>");
