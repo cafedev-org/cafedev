@@ -25,6 +25,7 @@ const lib = module.exports = {
             href: data.href,
             keywords : data.properties.tags || "",
             tags: tags,
+            date: data.date,
             linkHome: navTools.getLinkForHome(),
             recentArticles: recentArticlesData.map(lib.transformArticleDataForTemplate)
         });

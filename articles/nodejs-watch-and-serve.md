@@ -1,6 +1,6 @@
 <!--
 author:perry.mitchell
-date:2016-06-04
+date:2016-06-04 17:32:18
 title:NodeJS watch and serve
 subtitle:Developing NodeJS apps by watching and serving source
 headerImg:watch.jpg

@@ -25,11 +25,15 @@ function getDaySuffix(day) {
 module.exports = {
 
     getDateForArticle: function(articleData) {
-        let [ year, month, day ] = articleData.properties.date.split("-"),
+        let dateParts = articleData.properties.date.split(" "),
+            datePortion = dateParts[0],
+            timePortion = dateParts[1];
+        let [ year, month, day ] = datePortion.split("-"),
             monthName = MONTHS[month - 1],
             suffix = getDaySuffix(day);
         day = day.toString().replace(/^0/, "");
-        return `${day}${suffix} ${monthName} ${year}`;
+        //return `${day}${suffix} ${monthName} ${year}`;
+        return `${year}-${month}-${day} ${timePortion}`;
     },
 
     processContents: function(markdownData) {

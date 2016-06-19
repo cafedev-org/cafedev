@@ -110,6 +110,8 @@ let markdownProcedures = Object.keys(markdownFiles).map(function(markdownFilenam
     if (!author) {
         throw new Error("Unknown author");
     }
+    articleData.author = author;
+    articleData.date = markdownTools.getDateForArticle(articleData);
     return Promise.resolve().then(function() {
         let htmlContent = typeset(marked(articleData.contents.trim())),
             pageContent = templateTools.processArticlePage(
