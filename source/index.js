@@ -1,5 +1,11 @@
 "use strict";
 
+const argv = require("minimist")(process.argv.slice(2));
+
+let ENV = argv.environment || "production";
+global.environment = ENV;
+console.log("Processing for envirnment: " + ENV);
+
 const fs = require("fs-extra");
 const path = require("path");
 
@@ -17,7 +23,7 @@ const transferTools = require("./transfer.js");
 const timeTools = require("./time.js");
 const SitemapGenerator = require("./sitemap.js");
 
-const config = require("../data/config.json");
+const config = require(`../data/config.${ENV}.json`);
 
 const root = path.resolve(path.join(__dirname, ".."));
 const articlesDir = path.join(root, "articles");

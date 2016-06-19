@@ -13,7 +13,7 @@ block content
         header
             a(href=href)
                 h2= title
-            h6 Written by #{author.firstname} #{author.lastname} / #{date}
+            h6 #{author.firstname} #{author.lastname} / #{date}
         figure
             img(src=imgHeader)
         section!= content
@@ -21,4 +21,4 @@ block content
     include ./includes/disqus.pug
     script.
         var titleEl = document.querySelector("article h2");
-        titleEl.innerHTML = titleEl.innerHTML.replace(/\s/g, "<span class=dot></span>");
+        titleEl.innerHTML = titleEl.innerHTML.replace(/\s/g, "<span class=\"dot\"></span>");

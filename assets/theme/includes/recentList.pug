@@ -1,5 +1,8 @@
 ul.recent-articles
     each article in recentArticles
-        li
-            a(href=article.link)= article.title
-            i= article.description
+        li.recent-article
+            img.thumb(src=article.imgHeaderAbs)
+            div.post
+                a(href=article.link)= article.title
+                br
+                i= article.description
