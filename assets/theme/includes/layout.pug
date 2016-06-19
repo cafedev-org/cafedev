@@ -10,18 +10,11 @@ html(lang="en")
         link(type="text/css", href="/static/style.css", rel="stylesheet")
 
     body
-        header.container-tl
-            h1 Café Dev
+        include ./header.pug
         section.container-tl
             section.row-flex
                 nav.col-dt-25
-                    ul
-                        li
-                            a(href="/") ~/
-                        li
-                            a(href="/about") ~/about
-                        li
-                            a(href="/contact") ~/contact
+                    include ./sidebar.pug
                 section.col-dt-75
                     block content
         include ./footer.pug
