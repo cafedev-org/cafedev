@@ -14,6 +14,8 @@ const markdownTools = require("./markdown.js");
 const templateTools = require("./template.js");
 const navTools = require("./nav.js");
 const transferTools = require("./transfer.js");
+const timeTools = require("./time.js");
+const SitemapGenerator = require("./sitemap.js");
 
 const config = require("../data/config.json");
 
@@ -21,6 +23,8 @@ const root = path.resolve(path.join(__dirname, ".."));
 const articlesDir = path.join(root, "articles");
 const buildDir = path.join(root, "build");
 const themeDir = path.join(root, "assets", "theme");
+
+let generator = new SitemapGenerator();
 
 let renderer = new marked.Renderer(),
     oldCodeRenderer = renderer.code.bind(renderer);
@@ -95,6 +99,7 @@ let indexData = templateTools.processIndexPage(
     newestArticles
 );
 fs.writeFileSync(path.join(buildDir, "index.html"), indexData);
+generator.addLocation(`${config.protocol}://${config.domain}/`, timeTools.getDate(), 1.0);
 
 // Process markdown articles
 let markdownProcedures = Object.keys(markdownFiles).map(function(markdownFilename) {
@@ -121,6 +126,7 @@ let markdownProcedures = Object.keys(markdownFiles).map(function(markdownFilenam
             path.join(articleOutputDir, "index.html"),
             pageContent
         );
+        generator.addLocation(navTools.getLinkForArticle(articleData), timeTools.getDate(), 0.6);
     })
     .then(function() {
         return transferTools.transferArticleImages(articleData);
@@ -130,26 +136,9 @@ let markdownProcedures = Object.keys(markdownFiles).map(function(markdownFilenam
 // Assets
 Promise
     .all(markdownProcedures)
-    // .all(markdownProcedures.concat([
-    //     new Promise(function(resolve, reject) {
-    //         fs.copyRecursive(path.join(themeDir, "assets"), path.join(buildDir, "assets"), function(err) {
-    //             if (err) {
-    //                 reject(err);
-    //             } else {
-    //                 resolve();
-    //             }
-    //         });
-    //     }),
-    //     new Promise(function(resolve, reject) {
-    //         fs.copyRecursive(path.join(themeDir, "images"), path.join(buildDir, "images"), function(err) {
-    //             if (err) {
-    //                 reject(err);
-    //             } else {
-    //                 resolve();
-    //             }
-    //         });
-    //     })
-    // ]))
+    .then(function() {
+        fs.writeFileSync("build/sitemap.xml",generator.render());
+    })
     .then(function() {
         console.log("Done.");
         process.exit(0);
