@@ -15,6 +15,8 @@ const templateTools = require("./template.js");
 const navTools = require("./nav.js");
 const transferTools = require("./transfer.js");
 
+const config = require("../data/config.json");
+
 const root = path.resolve(path.join(__dirname, ".."));
 const articlesDir = path.join(root, "articles");
 const buildDir = path.join(root, "build");
@@ -78,24 +80,6 @@ newestArticles.reverse();
 newestArticles = newestArticles
     .map(key => markdownFiles[filesByDate[key]])
     .slice(0, 3);
-// let newestArticlesHTML = newestArticles
-//     .map(function(articleData) {
-//         let href = navTools.getLinkForArticle(articleData),
-//             commentsHref = navTools.getLinkForArticleComments(articleData),
-//             date = markdownTools.getDateForArticle(articleData);
-//         return `
-//             <li>
-//                 <article class="box post-summary">
-//                     <h3><a href="${href}">${articleData.properties.title}</a></h3>
-//                     <ul class="meta">
-//                         <li class="icon fa-clock-o">${date}</li>
-//                         <li class="icon fa-comments"><a href="${commentsHref}" class="disqus-comment-count" data-disqus-identifie="${articleData.slug}">&hellip;</a></li>
-//                     </ul>
-//                 </article>
-//             </li>
-//         `;
-//     })
-//     .join("\n");
 
 // Styling
 console.log("Processing SASS");
