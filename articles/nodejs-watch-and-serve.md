@@ -4,7 +4,7 @@ date=2016-06-04 17:32:18
 title=NodeJS Watch and Serve
 description=Developing NodeJS apps by watching and serving source
 headerImg=watch.jpg
-tags=nodejs,watching,serving
+tags=nodejs,javascript,watching,serving
 -->
 It's no secret that developing with NodeJS is both simple and highly productive. It's terribly easy to get started and there's very little to do to be able to develop powerful command line applications. A common approach to rapidly developing these applications is watching and reloading when changes are made to the source code.
 
