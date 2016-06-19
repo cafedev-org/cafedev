@@ -27,4 +27,8 @@ module.exports = class SitemapGenerator {
         `;
     }
 
+    renderRobots() {
+        return `Sitemap: /sitemap.xml`;
+    }
+
 };

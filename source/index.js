@@ -137,7 +137,8 @@ let markdownProcedures = Object.keys(markdownFiles).map(function(markdownFilenam
 Promise
     .all(markdownProcedures)
     .then(function() {
-        fs.writeFileSync("build/sitemap.xml",generator.render());
+        fs.writeFileSync("build/sitemap.xml", generator.render());
+        fs.writeFileSync("build/robots.txt", generator.renderRobots());
     })
     .then(function() {
         console.log("Done.");
