@@ -2,6 +2,7 @@ doctype html
 html(lang="en")
 
     head
+        meta(charset="utf-8")
         meta(name="google-site-verification",content="WGwee7AVQMYor6dpygP4-UZA0a35wJUiJ_8dGlFsAVY")
         block title
             title Cafe Dev
@@ -9,18 +10,11 @@ html(lang="en")
         link(type="text/css", href="/static/style.css", rel="stylesheet")
 
     body
-        header.container-tl
-            h1 Café Dev
+        include ./header.pug
         section.container-tl
             section.row-flex
                 nav.col-dt-25
-                    ul
-                        li
-                            a(href="/") Home
-                        li
-                            a(href="/about") About
-                        li
-                            a(href="/contact") Publishing
+                    include ./sidebar.pug
                 section.col-dt-75
                     block content
         include ./footer.pug
