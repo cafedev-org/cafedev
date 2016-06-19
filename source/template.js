@@ -48,7 +48,8 @@ const lib = module.exports = {
             title: articleData.properties.title,
             description: articleData.properties.description,
             link: navTools.getLinkForArticle(articleData),
-            slug: articleData.slug
+            slug: articleData.slug,
+            imgHeaderAbs: `${articleData.href}/${articleData.properties.headerImg}`
         };
     }
 
