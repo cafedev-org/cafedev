@@ -2,7 +2,7 @@
 
 const path = require("path");
 
-const config = require("./config.js");
+const config = require("../data/config.json");
 
 const root = path.resolve(path.join(__dirname, ".."));
 const buildDir = path.join(root, "build");
