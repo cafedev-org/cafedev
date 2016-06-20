@@ -19,28 +19,3 @@ block content
         section!= content
 
     include ./includes/disqus.pug
-    script.
-        function toggleDots() {
-            var dots = document.querySelectorAll(".dotted .dot");
-            dots = Array.prototype.slice.call(dots, 0);
-            dots.forEach(function(dot) {
-                var rect = dot.getBoundingClientRect();
-                if (rect && rect.width <= 5) {
-                    dot.classList.add("-last");
-                } else {
-                    dot.classList.remove("-last");
-                }
-            });
-        }
-
-        var titleEl = document.querySelector("article h2"),
-            dottedTitle =
-                "<span class=\"dotted\" aria-hidden=\"hidden\">" +
-                titleEl.innerHTML.replace(/\s/g, "<span class=\"dot\"> </span>") +
-                "</span>",
-            originalTitle = "<span class=\"original\">" + titleEl.innerHTML + "</span>";
-
-        titleEl.innerHTML = originalTitle + dottedTitle;
-
-        window.addEventListener("resize", toggleDots);
-        toggleDots();

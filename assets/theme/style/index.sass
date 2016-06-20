@@ -7,6 +7,7 @@
 @import partials/nav
 @import partials/article
 @import partials/recent
+@import partials/articleGrid
 
 body, html
     font-family: $fonts-regular
@@ -17,3 +18,38 @@ body
 figure
     padding: 0
     margin: 0
+
+h2, h4
+    font-family: $fonts-mono
+    font-weight: 400
+    position: relative
+    margin: 0
+
+    .dot
+        position: relative
+        &::after
+            position: absolute
+            left: 50%;
+            top: 46%;
+            -webkit-transform: translate(-50%,-50%);
+            transform: translate(-50%,-50%);
+            opacity: .4;
+            content: "·";
+
+        &.-last
+            visibility: hidden
+
+    .dotted
+        position: absolute
+        top: 0
+        left: 0
+        right: 0
+        bottom: 0
+
+        &::after
+            opacity: .4;
+            content: "¬";
+
+    .original
+        color: transparent
+        position: relative

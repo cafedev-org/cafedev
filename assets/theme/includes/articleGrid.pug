@@ -1,0 +1,8 @@
+section.row-flex.article-grid
+    each article in recentArticles
+        article.col-dt-50.col-tl-50.col-tp-50.article-grid-item
+            a(href=article.link)
+                figure
+                    img.thumb(src=article.imgHeaderAbs)
+                h4= article.title
+                p= article.description
