@@ -1,0 +1,17 @@
+extends ./includes/layout.pug
+
+block title
+    title= "Tag: " + tag + " // Cafe Dev"
+
+block meta
+    meta(name="keywords", content=tag)
+    meta(name="description", content="All posts for tag: " + tag)
+
+block content
+    article
+        header
+            a(href=href)
+                h2= "Tag: " + tag
+        section.row-flex.article-grid
+            each article in articles
+                include ./includes/articleTile.pug

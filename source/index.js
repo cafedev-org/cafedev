@@ -54,6 +54,7 @@ marked.setOptions({
         return highlightJS.highlightAuto(code).value;
     }
 });
+let tagList = new Set();
 
 // Authors
 const authors = require(path.join(root, "data", "authors.json"));
@@ -72,22 +73,27 @@ fs.readdirSync(articlesDir)
         let contents = fs.readFileSync(path.join(articlesDir, markdownFilename), "utf8"),
             data = markdownTools.processContents(contents),
             dateInfo = markdownTools.processDate(data.properties.date),
-            urlArticleName = markdownFilename.split(".")[0];
+            urlArticleName = markdownFilename.split(".")[0],
+            tags = (data.properties.tags || "").split(",").map(tag => tag.trim());
         let articleData = {
             contents: data.contents,
             date: dateInfo,
             properties: data.properties,
-            slug: urlArticleName
+            slug: urlArticleName,
+            tags: tags
         };
+        tags.forEach(function(tag) {
+            tagList.add(tag);
+        });
         articleData.href = navTools.getLinkForArticle(articleData);
         markdownFiles[markdownFilename] = articleData;
         filesByDate[`${dateInfo.year}${dateInfo.month}${dateInfo.day}${urlArticleName}`] = markdownFilename;
     });
 
-let newestArticles = Object.keys(filesByDate);
-newestArticles.sort();
-newestArticles.reverse();
-newestArticles = newestArticles
+let articlesByDate = Object.keys(filesByDate);
+articlesByDate.sort();
+articlesByDate.reverse();
+let newestArticles = articlesByDate
     .map(key => markdownFiles[filesByDate[key]])
     .slice(0, 3);
 
@@ -143,6 +149,34 @@ let markdownProcedures = Object.keys(markdownFiles).map(function(markdownFilenam
     .then(function() {
         return transferTools.transferArticleImages(articleData);
     });
+});
+
+// Tags
+console.log(`Processing ${tagList.size} tags...`);
+let tagDir = path.join(buildDir, "tag");
+mkdir(tagDir);
+tagList.forEach(function(tag) {
+    let thisTagDir = path.join(tagDir, tag),
+        theseTags = articlesByDate
+            .map(key => markdownFiles[filesByDate[key]])
+            .filter(function(article) {
+                if (article.tags.indexOf(tag) >= 0) {
+                    return true;
+                }
+                return false;
+            });
+    mkdir(thisTagDir);
+    let tagPageContent = templateTools.processTagPage(
+        tag,
+        {
+            href: navTools.getLinkForTag(tag),
+            articles: theseTags
+        }
+    );
+    fs.writeFileSync(
+        path.join(thisTagDir, "index.html"),
+        tagPageContent
+    );
 });
 
 // Assets
