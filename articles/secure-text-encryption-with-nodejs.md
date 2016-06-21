@@ -37,7 +37,7 @@ Although using [Crypto's][11] `pbkdf2` method, I'd recommend using a third-party
 
 With your derived key, we can now proceed to the fun part: encryption.
 
-## Encrypting text
+### Encrypting text
 There are many different flavours of data encryption, but we'll be looking at one of the most common: AES CBC. [AES][5] [Cipher-Block-Chaining][6] is perhaps one of the most well-known and widely used forms of encryption as it is both secure and widely supported (in terms of platforms).
 
 There are actually many different forms of AES (as well as other ciphers), though I'd recommend sticking with one that boasts a wide range of support across operating systems. For instance, [Buttercup][1] was intended to be multi-platform, so its cipher system would have to be compatible with most common operating systems. [AES-GCM][12] was originally considered, but as iOS didn't support it, the [implementation was switched to use CBC][7].
