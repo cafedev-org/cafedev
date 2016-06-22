@@ -25,3 +25,28 @@ article
         padding: 0
         border-radius: 0
         font-size: .75em
+
+    .meta
+        font-family: $fonts-mono
+        color: $hard-gray
+
+        p
+            color: $gray
+            margin: 0
+
+            &::after
+                content: " ¬";
+
+.tags-list
+    list-style: none
+
+    li
+        display: inline-block
+        margin-right: 1rem
+
+        a
+            color: $hard-gray
+            text-decoration: none
+
+            &:hover
+                color: $black
