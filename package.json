@@ -42,6 +42,7 @@
   },
   "devDependencies": {
     "flightplan": "^0.6.14",
+    "node-notifier": "^4.6.0",
     "nodemon": "^1.9.2",
     "serve": "^1.4.0"
   }

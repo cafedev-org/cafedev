@@ -6,6 +6,8 @@ let ENV = argv.environment || "production";
 global.environment = ENV;
 console.log("Processing for envirnment: " + ENV);
 
+const notifier = require("node-notifier");
+
 const fs = require("fs-extra");
 const path = require("path");
 
@@ -192,6 +194,10 @@ Promise
         fs.writeFileSync("build/robots.txt", generator.renderRobots());
     })
     .then(function() {
+        notifier.notify({
+          "title": "Cafe Dev",
+          "message": "Build complete."
+        });
         console.log("Done.");
         process.exit(0);
     })
