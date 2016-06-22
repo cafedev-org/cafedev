@@ -1,7 +1,7 @@
 extends ./includes/layout.pug
 
 block title
-    title= title + " // Cafe Dev"
+    title= title
 
 block meta
     meta(name="keywords", content=keywords)
@@ -14,6 +14,9 @@ block content
             a(href=href)
                 h2= title
             h6 #{author.firstname} #{author.lastname} / #{date}
+            div.tags
+                each tag in tags
+                    a.tag(href=tag.link)= tag.name
         figure
             img(src=imgHeader)
         section!= content

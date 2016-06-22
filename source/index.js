@@ -82,7 +82,8 @@ fs.readdirSync(articlesDir)
             date: dateInfo,
             properties: data.properties,
             slug: urlArticleName,
-            tags: tags
+            tags: tags.map(tag => ({ name: tag, link: navTools.getLinkForTag(tag) })),
+            tagNames: tags
         };
         tags.forEach(function(tag) {
             tagList.add(tag);
@@ -163,7 +164,7 @@ tagList.forEach(function(tag) {
         theseTags = articlesByDate
             .map(key => markdownFiles[filesByDate[key]])
             .filter(function(article) {
-                if (article.tags.indexOf(tag) >= 0) {
+                if (article.tagNames.indexOf(tag) >= 0) {
                     firstArticle = firstArticle || article;
                     return true;
                 }
