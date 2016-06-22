@@ -10,7 +10,7 @@ module.exports = class SitemapGenerator {
         this._items = [];
     }
 
-    addLocation(url, lastmod, prio=0.5, changefreq="daily") {
+    addLocation(url, lastmod, prio=0.5, changefreq="weekly") {
         this._items.push({
             loc: url,
             lastmod: lastmod,

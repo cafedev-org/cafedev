@@ -29,6 +29,10 @@ const lib = module.exports = {
 
     getLinkForHome: function() {
         return `${config.protocol}://${config.domain}`;
+    },
+
+    getLinkForTag: function(tag) {
+        return `${config.protocol}://${config.domain}/tag/${tag}`;
     }
 
 };

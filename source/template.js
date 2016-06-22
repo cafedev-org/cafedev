@@ -11,6 +11,7 @@ const root = path.resolve(path.join(__dirname), "..");
 const themeDir = path.join(root, "assets", "theme");
 const indexPageTemplate = path.join(root, "assets", "theme", "home.pug");
 const articlePageTemplate = path.join(root, "assets", "theme", "article.pug");
+const tagPageTemplate = path.join(root, "assets", "theme", "tag.pug");
 
 const lib = module.exports = {
 
@@ -39,6 +40,15 @@ const lib = module.exports = {
             title: "Cafe Dev",
             linkHome: navTools.getLinkForHome(),
             recentArticles: recentArticlesData.map(lib.transformArticleDataForTemplate)
+        });
+        return html;
+    },
+
+    processTagPage: function(tag, data) {
+        let html = pug.renderFile(tagPageTemplate, {
+            tag: tag,
+            href: data.href,
+            articles: data.articles.map(lib.transformArticleDataForTemplate)
         });
         return html;
     },

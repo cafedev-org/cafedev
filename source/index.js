@@ -6,6 +6,8 @@ let ENV = argv.environment || "production";
 global.environment = ENV;
 console.log("Processing for envirnment: " + ENV);
 
+const notifier = require("node-notifier");
+
 const fs = require("fs-extra");
 const path = require("path");
 
@@ -54,6 +56,7 @@ marked.setOptions({
         return highlightJS.highlightAuto(code).value;
     }
 });
+let tagList = new Set();
 
 // Authors
 const authors = require(path.join(root, "data", "authors.json"));
@@ -72,22 +75,27 @@ fs.readdirSync(articlesDir)
         let contents = fs.readFileSync(path.join(articlesDir, markdownFilename), "utf8"),
             data = markdownTools.processContents(contents),
             dateInfo = markdownTools.processDate(data.properties.date),
-            urlArticleName = markdownFilename.split(".")[0];
+            urlArticleName = markdownFilename.split(".")[0],
+            tags = (data.properties.tags || "").split(",").map(tag => tag.trim());
         let articleData = {
             contents: data.contents,
             date: dateInfo,
             properties: data.properties,
-            slug: urlArticleName
+            slug: urlArticleName,
+            tags: tags
         };
+        tags.forEach(function(tag) {
+            tagList.add(tag);
+        });
         articleData.href = navTools.getLinkForArticle(articleData);
         markdownFiles[markdownFilename] = articleData;
         filesByDate[`${dateInfo.year}${dateInfo.month}${dateInfo.day}${urlArticleName}`] = markdownFilename;
     });
 
-let newestArticles = Object.keys(filesByDate);
-newestArticles.sort();
-newestArticles.reverse();
-newestArticles = newestArticles
+let articlesByDate = Object.keys(filesByDate);
+articlesByDate.sort();
+articlesByDate.reverse();
+let newestArticles = articlesByDate
     .map(key => markdownFiles[filesByDate[key]])
     .slice(0, 3);
 
@@ -109,7 +117,7 @@ let indexData = templateTools.processIndexPage(
     newestArticles
 );
 fs.writeFileSync(path.join(buildDir, "index.html"), indexData);
-generator.addLocation(`${config.protocol}://${config.domain}/`, timeTools.getDate(), 1.0);
+generator.addLocation(`${config.protocol}://${config.domain}/`, timeTools.getDate(), 1.0, "daily");
 
 // Process markdown articles
 let markdownProcedures = Object.keys(markdownFiles).map(function(markdownFilename) {
@@ -145,6 +153,39 @@ let markdownProcedures = Object.keys(markdownFiles).map(function(markdownFilenam
     });
 });
 
+// Tags
+console.log(`Processing ${tagList.size} tags...`);
+let tagDir = path.join(buildDir, "tag");
+mkdir(tagDir);
+tagList.forEach(function(tag) {
+    let thisTagDir = path.join(tagDir, tag),
+        firstArticle,
+        theseTags = articlesByDate
+            .map(key => markdownFiles[filesByDate[key]])
+            .filter(function(article) {
+                if (article.tags.indexOf(tag) >= 0) {
+                    firstArticle = firstArticle || article;
+                    return true;
+                }
+                return false;
+            });
+    mkdir(thisTagDir);
+    let tagPageContent = templateTools.processTagPage(
+        tag,
+        {
+            href: navTools.getLinkForTag(tag),
+            articles: theseTags
+        }
+    );
+    fs.writeFileSync(
+        path.join(thisTagDir, "index.html"),
+        tagPageContent
+    );
+    if (firstArticle) {
+        generator.addLocation(navTools.getLinkForTag(tag), timeTools.getDate(firstArticle), 0.4);
+    }
+});
+
 // Assets
 Promise
     .all(markdownProcedures)
@@ -153,6 +194,10 @@ Promise
         fs.writeFileSync("build/robots.txt", generator.renderRobots());
     })
     .then(function() {
+        notifier.notify({
+          "title": "Cafe Dev",
+          "message": "Build complete."
+        });
         console.log("Done.");
         process.exit(0);
     })
