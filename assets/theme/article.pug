@@ -14,11 +14,14 @@ block content
             a(href=href)
                 h2= title
             h6 #{author.firstname} #{author.lastname} / #{date}
-            div.tags
-                each tag in tags
-                    a.tag(href=tag.link)= tag.name
         figure
             img(src=imgHeader)
         section!= content
+        footer.meta
+            p posted in
+            ul.tags-list
+                each tag in tags
+                    li
+                        a.tag(href=tag.link) ##{tag.name}
 
     include ./includes/disqus.pug
