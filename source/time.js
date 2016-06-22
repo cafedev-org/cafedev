@@ -32,8 +32,10 @@ function getDateTime() {
 
 module.exports = {
 
-    getDate: function() {
-        let { year, month, day } = getDateTime();
+    getDate: function(articleData) {
+        let { year, month, day } = articleData ?
+            articleData.date :
+            getDateTime();
         return `${year}-${month}-${day}`;
     }
 

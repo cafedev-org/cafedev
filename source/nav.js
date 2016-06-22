@@ -32,7 +32,7 @@ const lib = module.exports = {
     },
 
     getLinkForTag: function(tag) {
-        return `${config.protocol}://${config.domain}/tag/${tag}}`;
+        return `${config.protocol}://${config.domain}/tag/${tag}`;
     }
 
 };
