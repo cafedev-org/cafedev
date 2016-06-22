@@ -14,7 +14,7 @@ script.
         });
     }
 
-    var titleEls = Array.prototype.slice.call(document.querySelectorAll("article h2, article h4"));
+    var titleEls = Array.prototype.slice.call(document.querySelectorAll("h2, h3, h4"));
     titleEls.forEach(function(titleEl) {
         var dottedTitle =
             "<span class=\"dotted\" aria-hidden=\"hidden\">" +
