@@ -98,7 +98,7 @@ articlesByDate.sort();
 articlesByDate.reverse();
 let newestArticles = articlesByDate
     .map(key => markdownFiles[filesByDate[key]])
-    .slice(0, 3);
+    .slice(0, 10);
 
 // Styling
 console.log("Processing SASS");
