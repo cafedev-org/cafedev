@@ -17,6 +17,8 @@ const mkdir = require("mkdir-p").sync;
 const rimraf = require("rimraf").sync;
 const sass = require("node-sass");
 const typeset = require("typeset");
+const autoprefixer = require("autoprefixer");
+const postcss = require("postcss");
 
 const markdownTools = require("./markdown.js");
 const templateTools = require("./template.js");
@@ -105,6 +107,7 @@ console.log("Processing SASS");
 let cssData = sass.renderSync({
     file: path.join(themeDir, "style", "index.sass")
 }).css.toString("utf8");
+cssData = postcss([ autoprefixer ]).process(cssData).css;
 mkdir(path.join(buildDir, "static"));
 fs.writeFileSync(path.join(buildDir, "static/style.css"), cssData);
 

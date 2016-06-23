@@ -17,12 +17,12 @@ script.
     var titleEls = Array.prototype.slice.call(document.querySelectorAll("h2, h3, h4"));
     titleEls.forEach(function(titleEl) {
         var dottedTitle =
-            "<span class=\"dotted\" aria-hidden=\"hidden\">" +
+            "<span class=\"dotted\">" +
             titleEl.innerHTML.replace(/\s/g, "<span class=\"dot\"> </span>") +
             "</span>",
             originalTitle = "<span class=\"original\">" + titleEl.innerHTML + "</span>";
 
-        titleEl.innerHTML = originalTitle + dottedTitle;
+        titleEl.innerHTML = dottedTitle;
     });
 
     window.addEventListener("resize", toggleDots);
