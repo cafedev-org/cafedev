@@ -63,4 +63,35 @@ This `promiseAllTimeout` method takes an array just like `Promise.all`, but it a
  * A maximum wait time in milliseconds. This is approximate as timeouts in JavaScript are rarely spot-on.
  * A flag to specify the behaviour. If set to `true` (default), the function will resolve when the time expires even if not all Promises have resolved by that time - in this case, unresolved Promises will map to `undefined`. If set to `false`, if any Promises did not resolve by the time specified an exception is thrown.
 
+Let's take a look at how it functions:
+
+```js
+console.time("Promise-all");
+promiseAllTimeout([
+    new Promise(function(resolve) {
+        setTimeout(function() {
+            (resolve)(5)
+        }, 150);
+    }),
+    new Promise(function(resolve) {
+        setTimeout(function() {
+            (resolve)(10)
+        }, 280);
+    })
+], 250, true)
+.then(function(results) {
+    console.timeEnd("Promise-all");
+    console.log("Result:", results);
+}).catch(function(err) {
+    setTimeout(function() {
+        throw err;
+    });
+});
+// Outputs:
+//   Promise-all: 255.802ms
+//   Result: [ 5, undefined ]
+```
+
+_Changing the `true` in the function call to `false` would instead throw an exception._
+
 This is definitely not a suitable replacement for the built-in method, but it does provide a handy interface for working with time-sensitive components.
