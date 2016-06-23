@@ -16,7 +16,7 @@ I'm using macOS since all machines are Apple-made. As a result of this, pretty m
 ### Cloud
 I use Dropbox for storing my documents (screenshots, PDF docs, etc), iCloud for storing App data and [Amazon Cloud Drive](https://www.amazon.com/clouddrive/home?ref_=cd_auth_home) for storing my huge amount of Photos and Videos that need backing up (GoPro and Phone videos, DSLR photos, etc).
 
-### Editors and Terminal
+### Editor and Terminal
 Now this is the most tricky part. First let me mention what I use:
 
 - [Atom](https://atom.io/) (editor)
