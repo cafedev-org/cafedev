@@ -4,7 +4,7 @@ date=2016-06-23 22:45:00
 title=Synced Setup for Development
 description=A few tips and tricks about setting up a synced dev environment
 headerImg=laptop.jpg
-tags=development,tools,setup
+tags=development,tools,setup,mac
 -->
 A typical day for me involves using three computers: one at the office, a laptop on the go and an iMac at home. This setup gets really annoying pretty quick because it's so difficult to have the same environment installed on all of them. Settings, apps, data, documents and pretty much everything can be diffirent across the machines.
 
