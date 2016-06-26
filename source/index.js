@@ -127,7 +127,13 @@ generator.addLocation(`${config.protocol}://${config.domain}/`, timeTools.getDat
 let markdownProcedures = Object.keys(markdownFiles).map(function(markdownFilename) {
     let articleData = markdownFiles[markdownFilename];
     console.log(`Processing: ${articleData.properties.title} (${markdownFilename})`);
-    let author = authors[articleData.properties.author],
+    let author = Object.assign(
+            {},
+            authors[articleData.properties.author],
+            {
+                id: articleData.properties.author
+            }
+        ),
         articleOutputDir = navTools.getArticleDirectory(articleData);
     if (!author) {
         throw new Error("Unknown author");
