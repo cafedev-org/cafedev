@@ -1,5 +1,6 @@
 script#dsq-count-scr(src="//cafedev.disqus.com/count.js",async)
-include ./analytics.pug
+block analytics
+    include ./analytics.pug
 script.
     function toggleDots() {
         var dots = document.querySelectorAll(".dotted .dot");

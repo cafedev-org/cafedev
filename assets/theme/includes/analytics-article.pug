@@ -1,0 +1,9 @@
+if environment == "production"
+    script(type="text/javascript").
+        ga('send', {
+            hitType: 'event',
+            eventCategory: 'author',
+            eventAction: 'article-view',
+            eventLabel: 'Author article viewed',
+            eventValue: '#{author.id}'
+        });

@@ -13,11 +13,15 @@ const indexPageTemplate = path.join(root, "assets", "theme", "home.pug");
 const articlePageTemplate = path.join(root, "assets", "theme", "article.pug");
 const tagPageTemplate = path.join(root, "assets", "theme", "tag.pug");
 
+const __target = {
+    environment: global.environment
+};
+
 const lib = module.exports = {
 
     processArticlePage: function(data, recentArticlesData = []) {
         //let tags = data.properties.tags ? data.properties.tags.split(",") : [];
-        let html = pug.renderFile(articlePageTemplate, {
+        let html = pug.renderFile(articlePageTemplate, Object.assign({
             title: data.properties.title,
             description: data.properties.description,
             slug: data.slug,
@@ -31,25 +35,25 @@ const lib = module.exports = {
             author: data.author,
             linkHome: navTools.getLinkForHome(),
             recentArticles: recentArticlesData.map(lib.transformArticleDataForTemplate)
-        });
+        }, __target));
         return html;
     },
 
     processIndexPage: function(recentArticlesData = []) {
-        let html = pug.renderFile(indexPageTemplate, {
+        let html = pug.renderFile(indexPageTemplate, Object.assign({
             title: "Cafe Dev",
             linkHome: navTools.getLinkForHome(),
             recentArticles: recentArticlesData.map(lib.transformArticleDataForTemplate)
-        });
+        }, __target));
         return html;
     },
 
     processTagPage: function(tag, data) {
-        let html = pug.renderFile(tagPageTemplate, {
+        let html = pug.renderFile(tagPageTemplate, Object.assign({
             tag: tag,
             href: data.href,
             articles: data.articles.map(lib.transformArticleDataForTemplate)
-        });
+        }, __target));
         return html;
     },
 
