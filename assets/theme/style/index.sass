@@ -1,5 +1,5 @@
 @import "https://fonts.googleapis.com/css?family=Lora:400,700|Roboto+Mono:300,400"
-@import "../../../node_modules/pavilion/scss/pavilion"
+@import lib/pavilion/pavilion
 @import lib/variables
 @import lib/typeset
 @import lib/code
@@ -18,6 +18,12 @@ body
 figure
     padding: 0
     margin: 0
+
+a
+    text-decoration: none
+
+    &:hover
+        text-decoration: underline
 
 h2, h3, h4, h5
     font-family: $fonts-mono
