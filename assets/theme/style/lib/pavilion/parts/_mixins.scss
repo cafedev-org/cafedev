@@ -1,0 +1,79 @@
+/**
+  * Container
+  */
+
+@mixin container {
+    margin: 0 auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-right: 1.5rem;
+    padding-left: 1.5rem;
+    @media(min-width: $tablet-portrait-size) {
+        padding-right: 1rem;
+        padding-left: 1rem;
+    }
+    &:before {
+        content: " ";
+        display: table;
+    }
+    &:after {
+        content: " ";
+        display: table;
+        clear: both;
+    }
+}
+
+/**
+  * Button
+  */
+
+@mixin button {
+    display: inline-block;
+    border: 2px solid;
+    border-radius: $small-radius;
+    font-family: inherit;
+    padding: 0 1.5rem;
+    line-height: $line-height-normal * 1.58;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    cursor: pointer;
+    i.fa {
+        margin: 0 0 0 0.3rem;
+        /* for font awesome icons in buttons, fix margin */
+    }
+    &:active {
+        transform: scale(0.97);
+    }
+    &[disabled="true"], &[disabled="disabled"], &[disabled] {
+        pointer-events: none;
+        opacity: 0.5;
+    }
+}
+
+/**
+  * Clearfix
+  */
+
+@mixin clearfix {
+    &:before,
+    &:after {
+        content: " ";
+        display: table;
+    }
+    &:after {
+        clear: both;
+    }
+}
+
+/**
+  * Flexbox
+  */
+
+@mixin flexbox {
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap;
+    flex-direction: row;
+}

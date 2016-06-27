@@ -1,0 +1,278 @@
+/**
+ * Basic styling for the forms
+ */
+
+form {
+    width: 100%;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+
+/**
+  * Fieldsets for extra margin's on the top and bottom.
+  * Legends are used as headers, equal to a h4 element
+  */
+
+fieldset {
+    border: 0;
+    padding: 0;
+    margin: 1rem 0;
+    legend {
+        font-weight: $font-weight-bold;
+        font-size: 1.333em;
+        margin: 1.414em 0 0.5em;
+        display: block;
+        width: 100%;
+    }
+}
+
+/**
+  * Global label styles,
+  * Checkbox, Radiobutton - block/inline - , file upload.
+  * * * Checkbox & Radio's are wrapped in labels
+  * * * -moz-url-prefixes added to prevent weird alignment of radio and checkboxes
+  */
+
+label {
+    font-weight: $font-weight-bold;
+    display: block;
+    color: $body-copy-color;
+    line-height: normal;
+    margin-bottom: 0.5em;
+}
+
+.checkbox, .radio {
+    padding-left: 25px;
+    margin-top: 0;
+    margin-bottom: 1.1rem;
+    position: relative;
+    display: table;
+    cursor: pointer;
+    font-weight: $font-weight-normal;
+    input {
+        position: absolute;
+        width: auto;
+        margin: 0;
+        left: 0;
+        cursor: pointer;
+        &[type="checkbox"] {
+            top: 0.3rem;
+            @-moz-document url-prefix() {
+                top: 0.45rem;
+            }
+        }
+        &[type="radio"] {
+            top: 0.2rem;
+            @-moz-document url-prefix() {
+                top: 0.4rem;
+            }
+        }
+    }
+}
+
+/* inline checkbox & radio */
+.checkbox-inline, .radio-inline {
+    display: inline-block;
+    margin-right: 1.2rem;
+}
+
+/* Button-type file upload */
+label.button-default,
+label.button-outlined,
+label.button-stripped {
+    position: relative;
+    font-weight: $font-weight-normal;
+    margin-bottom: 1.2rem;
+    [type="file"] {
+        visibility: hidden;
+        position: absolute;
+        opacity: 0;
+    }
+}
+
+/**
+  * Text input, select input, textarea, default file input
+  */
+
+input,
+select,
+textarea {
+    font-family: inherit;
+    font-weight: $font-weight-normal;
+    font-size: inherit;
+    line-height: $line-height-normal * 1.65;
+    display: block;
+    width: 100%;
+    background-color: transparent;
+    border: 1px solid darken($soft-gray, 20%);
+    border-radius: $small-radius;
+    box-shadow: none;
+    padding: 0 1rem;
+    margin-bottom: 1.2rem;
+    &:focus {
+        border-color: $primary-color;
+    }
+    /* standard file type input */
+    &[type="file"] {
+        margin: 0.8rem 0 2rem;
+        line-height: 0;
+        border: 0;
+        padding: 0;
+    }
+    &::-webkit-input-placeholder {
+       color: darken($soft-gray, 30%);
+    }
+
+    &:-moz-placeholder { /* Firefox 18- */
+       color: darken($soft-gray, 30%);  
+    }
+
+    &::-moz-placeholder {  /* Firefox 19+ */
+       color: darken($soft-gray, 30%);  
+    }
+
+    &:-ms-input-placeholder {  
+       color: darken($soft-gray, 30%);  
+    }
+}
+
+
+/**
+  * Input with button left or right
+  */
+
+.input-with-button {
+    width: 100%;
+    display: table;
+    margin-bottom: 1.2rem;
+    border-collapse: separate;
+    label {
+        width: 100%;
+        display: table-caption;
+    }
+    .button-wrapper {
+        display: table-cell;
+        width: 1%;
+        white-space: nowrap;
+        position: relative;
+        .button-default,
+        .button-outlined {
+            margin: 0;
+            min-width: 100%;
+            &:active {
+                transform: none;
+            }
+        }
+    }
+    input[type="text"] {
+        width: 100%;
+        display: table-cell;
+        margin: 0;
+        position: relative;
+    }
+    /* fix border-radius on left */
+    &.button-left {
+        .button-wrapper {
+            .button-default,
+            .button-outlined {
+                border-radius: $small-radius 0 0 $small-radius;
+            }
+        }
+        input[type="text"] {
+            border-radius: 0 $small-radius $small-radius 0;
+        }
+    }
+    /* fix border-radius on right */
+    &.button-right {
+        .button-wrapper {
+            .button-default,
+            .button-outlined {
+                border-radius: 0 $small-radius $small-radius 0;
+            }
+        }
+        input[type="text"] {
+            border-radius: $small-radius 0 0 $small-radius;
+        }
+    }
+}
+
+
+/**
+  * Specific textarea styling
+  */
+
+textarea {
+    width: 100% !important;
+    min-height: 150px;
+    padding: 0.7rem 1rem;
+    line-height: $line-height-normal;
+}
+
+
+/**
+  * Extra styles for the select input
+  */
+
+select {
+    appearance: none;
+    cursor: pointer;
+    background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Angle_down_font_awesome.svg/512px-Angle_down_font_awesome.svg.png");
+    background-size: 20px;
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-origin: content-box;
+    &::-ms-expand {
+        display: none;
+    }
+    @-moz-document url-prefix() {
+        /* firefox select line-height bugfix */
+        height: $emsize-small * $line-height-normal * 1.7;
+        @media(min-width: $tablet-portrait-size) {
+            height: $emsize-normal * $line-height-normal * 1.7;
+        }
+    }
+}
+
+
+/**
+  * Devider
+  */
+
+hr {
+    margin-top: 1.2rem;
+    margin-bottom: 1.2rem;
+    border: 0;
+    border-top: 2px solid $soft-gray;
+}
+
+
+/**
+  * Disabled styles
+  */
+
+input,
+select,
+textarea {
+    &[disabled="true"],
+    &[disabled="disabled"],
+    &[disabled] {
+        pointer-events: none;
+        opacity: 0.5;
+        &::-webkit-input-placeholder {
+            color: darken($soft-gray, 20%);
+        }
+        &:-moz-placeholder {
+            /* Firefox 18- */
+            color: darken($soft-gray, 20%);
+        }
+        &::-moz-placeholder {
+            /* Firefox 19+ */
+            color: darken($soft-gray, 20%);
+        }
+        &:-ms-input-placeholder {
+            color: darken($soft-gray, 20%);
+        }
+    }
+}
+
