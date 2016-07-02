@@ -2,6 +2,9 @@ const prompt = require("prompt");
 const prettyjson = require("prettyjson");
 const chalk = require("chalk");
 
+const fs = require("fs");
+const path = require("path");
+
 const postTools = require("../source/post.js");
 const timeTools = require("../source/time.js");
 
@@ -41,7 +44,17 @@ const requiredProperties = {
 };
 
 function createPost(postData) {
-
+    postData.headerImg = "";
+    let outputPath = path.join(global.__root, "articles", postData.slug + ".md");
+    let postContent = "<!--\n";
+    Object.keys(postData).forEach(function(key) {
+        if (key === "slug") {
+            return;
+        }
+        postContent += `${key}=${postData[key]}\n`;
+    })
+    postContent += "-->\n";
+    fs.writeFileSync(outputPath, postContent);
 }
 
 function getPostData(options) {
@@ -70,7 +83,8 @@ function getPostData(options) {
 
 module.exports = function newPost(options) {
     let pJSONOps = {
-        indent: 4
+        indent: 4,
+        keysColor: 'grey'
     };
     getPostData(options)
         .then(function(data) {
