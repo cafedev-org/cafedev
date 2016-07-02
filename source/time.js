@@ -37,6 +37,13 @@ module.exports = {
             articleData.date :
             getDateTime();
         return `${year}-${month}-${day}`;
+    },
+
+    getDateTime: function(articleData) {
+        let { year, month, day, hour, minute, second } = articleData ?
+            articleData.date :
+            getDateTime();
+        return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
     }
 
 };
