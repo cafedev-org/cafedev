@@ -45,25 +45,21 @@ function getPostData(options) {
     Object.keys(requiredProperties).forEach(function(propName) {
         if (options[propName] && options[propName].length > 0 && typeof options[propName] === "string") {
             postData[propName] = options[propName];
-        } else {
-            requiresPrompt = true;
-            promptSchema.properties[propName] = requiredProperties[propName];
         }
     });
-    if (requiresPrompt) {
-        return new Promise(function(resolve, reject) {
-            prompt.get(promptSchema, function(err, result) {
-                if (err) {
-                    console.error("Failed retrieving post information", err);
-                    (reject)(err);
-                } else {
-                    postData = Object.assign(postData, result);
-                    (resolve)(postData);
-                }
-            });
+    promptSchema.properties = requiredProperties;
+    prompt.override = postData;
+    return new Promise(function(resolve, reject) {
+        prompt.get(promptSchema, function(err, result) {
+            if (err) {
+                console.error("Failed retrieving post information", err);
+                (reject)(err);
+            } else {
+                postData = Object.assign(postData, result);
+                (resolve)(postData);
+            }
         });
-    }
-    return Promise.resolve(postData);
+    });
 }
 
 module.exports = function newPost(options) {
