@@ -27,8 +27,10 @@ const lib = module.exports = {
             description: data.properties.description,
             slug: data.slug,
             content: data.content,
-            imgHeader: data.properties.headerImg,
-            imgHeaderAbs: `${data.href}/${data.properties.headerImg}`,
+            //imgHeader: data.properties.headerImg,
+            //imgHeaderAbs: `${data.href}/${data.properties.headerImg}`,
+            imgHeader: mediaTools.getArticleHeaderImageURL(data).filename,
+            imgHeaderAbs: mediaTools.getArticleHeaderImageURL(data).url,
             href: data.href,
             keywords : data.properties.tags || "",
             tags: data.tags,
@@ -64,8 +66,7 @@ const lib = module.exports = {
             description: articleData.properties.description,
             link: navTools.getLinkForArticle(articleData),
             slug: articleData.slug,
-            imgHeaderAbs: mediaTools.getArticleHeaderThumbnailURL(articleData).url
-            //imgHeaderAbs: `${articleData.href}/${articleData.properties.headerImg}`
+            imgHeaderAbs: mediaTools.getArticleIndexThumbnailURL(articleData).url
         };
     }
 

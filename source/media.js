@@ -8,7 +8,16 @@ const buildDir = path.join(root, "build");
 
 let mediaTools = module.exports = {
 
-    getArticleHeaderThumbnailURL: function(articleData) {
+    getArticleHeaderImageURL: function(articleData) {
+        let headerImgSize = mediaTools.getImageThumbnailSizes().articleHeader,
+            filename = mediaTools.getImageThumbnailName(articleData.properties.headerImg, headerImgSize);
+        return {
+            filename,
+            url: `${articleData.href}/${filename}`
+        };
+    },
+
+    getArticleIndexThumbnailURL: function(articleData) {
         let indexThumbSize = mediaTools.getImageThumbnailSizes().index,
             filename = mediaTools.getImageThumbnailName(articleData.properties.headerImg, indexThumbSize);
         return {
@@ -25,7 +34,8 @@ let mediaTools = module.exports = {
 
     getImageThumbnailSizes: function() {
         return {
-            index: "400x"
+            index: "400x",
+            articleHeader: "1200x"
         };
     },
 
@@ -58,9 +68,6 @@ let mediaTools = module.exports = {
                 return easyimage.rescrop(config);
             });
         return Promise.all(promises);
-        // return easyimage.rescrop({
-        //     src: path.join(articleOutputDir, headerImgFilename)
-        // })
     }
 
 };
