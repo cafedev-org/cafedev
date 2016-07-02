@@ -1,0 +1,38 @@
+#!/usr/bin/env node
+
+const cafeDev = require("commander");
+
+const package = require("./package.json");
+
+const newPost = require("./cli/new-post.js");
+
+cafeDev.version(package.version);
+
+cafeDev
+    .command("new <type>")
+    .description("Create a new item")
+    .option("-a, --author <author>",            "Set the author slug")
+    .option("-d, --date <date>",                "Set the date")
+    .option("--description [description]",      "Set the post description")
+    .option("-s, --slug <slug>",                "Set the post slug")
+    .option("--tags <tags>",                    "Set the post tags")
+    .option("-t, --title <title>",              "Set the post title")
+    .action(function(type, options) {
+        console.log("Type:", type);
+        switch (type) {
+            case "post":
+                newPost(options);
+                break;
+            default:
+                throw new Error("Unknown item type: " + type);
+        }
+    });
+
+cafeDev
+    .command("list <type>")
+    .description("List items")
+    .action(function(cmd, type, options) {
+        console.log("List items:", cmd, type);
+    });
+
+cafeDev.parse(process.argv);
