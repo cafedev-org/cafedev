@@ -6,6 +6,7 @@ const path = require("path");
 const pug = require("pug");
 
 const navTools = require("./nav.js");
+const mediaTools = require("./media.js");
 
 const root = path.resolve(path.join(__dirname), "..");
 const themeDir = path.join(root, "assets", "theme");
@@ -63,7 +64,8 @@ const lib = module.exports = {
             description: articleData.properties.description,
             link: navTools.getLinkForArticle(articleData),
             slug: articleData.slug,
-            imgHeaderAbs: `${articleData.href}/${articleData.properties.headerImg}`
+            imgHeaderAbs: mediaTools.getArticleHeaderThumbnailURL(articleData).url
+            //imgHeaderAbs: `${articleData.href}/${articleData.properties.headerImg}`
         };
     }
 

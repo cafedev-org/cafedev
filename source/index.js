@@ -25,6 +25,7 @@ const templateTools = require("./template.js");
 const navTools = require("./nav.js");
 const transferTools = require("./transfer.js");
 const timeTools = require("./time.js");
+const mediaTools = require("./media.js");
 const SitemapGenerator = require("./sitemap.js");
 
 const config = require(`../data/config.${ENV}.json`);
@@ -160,6 +161,10 @@ let markdownProcedures = Object.keys(markdownFiles).map(function(markdownFilenam
     })
     .then(function() {
         return transferTools.transferArticleImages(articleData);
+    })
+    .then(function() {
+        console.log("Converting thumbnails:", articleData.slug);
+        return mediaTools.processArticleThumbs(articleData);
     });
 });
 
