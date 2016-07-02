@@ -1,4 +1,6 @@
 const prompt = require("prompt");
+const prettyjson = require("prettyjson");
+const chalk = require("chalk");
 
 const postTools = require("../source/post.js");
 const timeTools = require("../source/time.js");
@@ -38,6 +40,10 @@ const requiredProperties = {
     }
 };
 
+function createPost(postData) {
+
+}
+
 function getPostData(options) {
     let postData = {},
         requiresPrompt = false,
@@ -63,11 +69,16 @@ function getPostData(options) {
 }
 
 module.exports = function newPost(options) {
+    let pJSONOps = {
+        indent: 4
+    };
     getPostData(options)
         .then(function(data) {
             if (data.slug.trim().length <= 0) {
                 data.slug = postTools.convertTitleToSlug(data.title);
             }
-            console.log(data);
+            console.log(chalk.underline.blue("Creating post:"));
+            console.log(prettyjson.render(data, pJSONOps));
+            createPost(data);
         });
 };
