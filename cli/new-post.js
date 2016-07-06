@@ -1,6 +1,7 @@
 const prompt = require("prompt");
 const prettyjson = require("prettyjson");
 const chalk = require("chalk");
+const mkdir = require("mkdir-p");
 
 const fs = require("fs");
 const path = require("path");
@@ -45,7 +46,8 @@ const requiredProperties = {
 
 function createPost(postData) {
     postData.headerImg = "";
-    let outputPath = path.join(global.__root, "articles", postData.slug + ".md");
+    let outputPath = path.join(global.__root, "articles", postData.slug + ".md"),
+        articleDir = path.join(global.__root, "articles", postData.slug);
     let postContent = "<!--\n";
     Object.keys(postData).forEach(function(key) {
         if (key === "slug") {
@@ -55,6 +57,7 @@ function createPost(postData) {
     })
     postContent += "-->\n";
     fs.writeFileSync(outputPath, postContent);
+    mkdir(articleDir);
 }
 
 function getPostData(options) {

@@ -1,6 +1,6 @@
 "use strict";
 
-const VALID_HEADER = /^<!--[\s\n]+?author=[\w.]+(.|\n)+-->/m;
+const VALID_HEADER = /^<!--[\s\n]+?(.|\n)*author=[\w.]+(.|\n)+-->/m;
 
 const MONTHS = [
     "January", "February", "March", "April", "May", "June",
