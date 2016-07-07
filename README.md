@@ -7,3 +7,5 @@ You'll need to satisfy the [development requirements](REQUIREMENTS.md) before us
 
 ## Developing
 Run `npm run watch` to watch for file changes, and `npm run server` to serve the build directory.
+
+A [CLI application](CLI.md) is available to assist with basic tasks.
