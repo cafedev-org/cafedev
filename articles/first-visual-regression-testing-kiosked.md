@@ -67,4 +67,13 @@ setTimeout(callback, 1500);
 `;
 ```
 
-All-in-all, running a local server and testing the page via that may be an easier option. This functionality may find its way into GUIRE at some stage quite soon.
+All-in-all running a local server and testing the page via that may be the easier option. This functionality may find its way into GUIRE [at some stage](https://github.com/Kiosked/guire/issues/4) quite soon, as configuration files are best left simple and descriptive.
+
+GUIRE's Webdriver integration launches Chrome by default to render the test page:
+
+![GUIRE rendering with WebdriverJS](guire-render.jpg)
+
+If you're testing different facets of a component or different components themselves, you can use the `setupFn` function on each component definition to hide all others and initialise the next item to test. Utility methods like `beforeEach` and `afterEach` will also [soon become available](https://github.com/Kiosked/guire/issues/5) for GUIRE.
+
+### Using GUIRE on a CI server
+If you're serious about project stability you're probably running a CI server. As Webdriver supports testing in real browsers, running GUIRE tests on a headless server can sometimes be tricky. Checkout GUIRE's [Travis configuration](https://github.com/Kiosked/guire/blob/master/.travis.yml) to see how it uses [X virtual framebuffer](https://en.wikipedia.org/wiki/Xvfb) (XVFB) to run Firefox and Chrome tests without a typical window manager. There's even a [plugin for Jenkins](https://wiki.jenkins-ci.org/display/JENKINS/Xvfb+Plugin).
