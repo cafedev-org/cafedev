@@ -1,7 +1,7 @@
 <!--
 title=setImmediate: a must-have polyfill
 author=perry.mitchell
-description=setImmediate offers, in most cases, unparalleled performance for asynchronous scheduling of functions, and is drastically underused in the wild.
+description=setImmediate offers, in most cases, unparalleled performance for asynchronous scheduling of functions, and is drastically underused in the wild
 date=2016-07-06 23:16:59
 tags=async,promise,javascript,performance,polyfill
 headerImg=lightning.jpg
