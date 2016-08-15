@@ -7,3 +7,6 @@ node_modules
 .npm
 
 build
+
+# Mac
+.DS_Store
