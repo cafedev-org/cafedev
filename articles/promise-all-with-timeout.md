@@ -1,7 +1,7 @@
 <!--
 author=perry.mitchell
 date=2016-06-23 21:32:31
-title=Promise~all with a timeout
+title=Promise.all with a timeout
 description=JavaScript's Promise.all that waits a specified amount of time before resolving
 headerImg=countdown.jpg
 tags=javascript,promise,async
