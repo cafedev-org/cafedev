@@ -2,7 +2,7 @@
 title=Splitting CSS selectors (for use with MutationObserver)
 author=perry.mitchell
 description=Using css-selector-splitter, CSS selector strings can be split into their separate components (multiple selectors and relationship components) (covers usage with MutationObserver)
-date=2016-08-23 18:20:01
+date=2016-08-30 21:32:01
 tags=css,javascript,tools
 headerImg=split-boulder.jpg
 -->
