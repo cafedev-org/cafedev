@@ -2,7 +2,7 @@
 title=Custom HTML elements and better ads
 author=perry.mitchell
 description=A little experimentation with registering custom HTML elements and how it could be applied to design better digital ads.
-date=2016-10-04 23:14:34
+date=2016-10-08 17:09:34
 tags=dom,javascript
 headerImg=tetris.jpg
 -->
