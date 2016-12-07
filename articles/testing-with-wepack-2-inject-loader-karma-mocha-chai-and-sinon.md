@@ -1,5 +1,5 @@
 <!--
-title=Testing with Wepack 2, inject-loader, karma, mocha, chai and sinon
+title=Testing with Webpack 2, inject-loader, karma, mocha, chai and sinon
 author=perry.mitchell
 description=Testing shouldn't be difficult, and often it takes a completely new project to see that setting up a clean test harness is straightforward and very rewarding.
 date=2016-12-06 16:37:19
